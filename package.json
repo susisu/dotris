@@ -1,0 +1,20 @@
+{
+  "name": "@susisu/dotris-canvas",
+  "version": "0.0.0",
+  "description": "",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/susisu/dotris-canvas.git"
+  },
+  "author": "Susisu <susisu2413@yahoo.co.jp> (https://github.com/susisu)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/susisu/dotris-canvas/issues"
+  },
+  "homepage": "https://github.com/susisu/dotris-canvas#readme"
+}
