@@ -10,7 +10,7 @@ module.exports = {
     devtool: DEVEL ? "#source-map" : "",
     context: __dirname,
     entry: {
-        main: "./src/main.js",
+        main: "./src/js/main.js",
     },
     output: {
         path      : path.resolve(__dirname, "app"),
