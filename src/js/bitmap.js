@@ -33,6 +33,14 @@ class Bitmap {
         this._ctx.putImageData(pixel, point.x, point.y);
     }
 
+    fillRect(rect, color) {
+        this._ctx.save();
+        this._ctx.imageSmoothingEnabled = false;
+        this._ctx.fillStyle = color.toCSSColor();
+        this._ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+        this._ctx.restore();
+    }
+
     copyPixels(src, srcRect, distPoint) {
         this._ctx.save();
         this._ctx.globalCompositeOperation = "copy";
