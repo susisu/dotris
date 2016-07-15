@@ -31,6 +31,10 @@ class Color {
         this.b = b;
         this.a = a;
     }
+
+    toCSSColor() {
+        return `rgba(${this.r},${this.g},${this.b},${this.a})`;
+    }
 }
 
 endModule();
