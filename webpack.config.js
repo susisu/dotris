@@ -24,8 +24,8 @@ module.exports = {
     plugins:
         DEVEL ? [] : [
             new webpack.optimize.OccurenceOrderPlugin(),
-            new webpack.NoErrorsPlugin(),
-            new webpack.optimize.UglifyJsPlugin()
+            new webpack.NoErrorsPlugin()
+            // new webpack.optimize.UglifyJsPlugin()
         ],
     module: {
         loaders: []
