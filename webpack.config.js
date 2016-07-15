@@ -24,10 +24,19 @@ module.exports = {
     plugins:
         DEVEL ? [] : [
             new webpack.optimize.OccurenceOrderPlugin(),
-            new webpack.NoErrorsPlugin()
-            // new webpack.optimize.UglifyJsPlugin()
+            new webpack.NoErrorsPlugin(),
+            new webpack.optimize.UglifyJsPlugin()
         ],
     module: {
-        loaders: []
+        loaders: [
+            {
+                loader: "babel-loader",
+                test  : /\.js$/,
+                query : {
+                    plugins: [],
+                    presets: ["es2015"]
+                }
+            }
+        ]
     }
 };
