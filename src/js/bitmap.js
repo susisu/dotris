@@ -45,6 +45,7 @@ class Bitmap {
         this._ctx.save();
         this._ctx.globalCompositeOperation = "copy";
         this._ctx.imageSmoothingEnabled    = false;
+        this._ctx.beginPath();
         this._ctx.rect(distPoint.x, distPoint.y, srcRect.width, srcRect.height);
         this._ctx.clip();
         this._ctx.drawImage(
