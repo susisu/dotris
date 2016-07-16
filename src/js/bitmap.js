@@ -35,10 +35,15 @@ class Bitmap {
 
     fillRect(rect, color) {
         this._ctx.save();
-        this._ctx.imageSmoothingEnabled = false;
+        this._ctx.globalCompositeOperation = "copy";
+        this._ctx.imageSmoothingEnabled    = false;
+        this._ctx.beginPath();
+        this._ctx.rect(rect.x, rect.y, rect.width, rect.height);
+        this._ctx.clip();
         this._ctx.fillStyle = color.toCSSColor();
-        this._ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+        this._ctx.fill();
         this._ctx.restore();
+        this._ctx.beginPath();
     }
 
     copyPixels(src, srcRect, distPoint) {
@@ -48,13 +53,13 @@ class Bitmap {
         this._ctx.beginPath();
         this._ctx.rect(distPoint.x, distPoint.y, srcRect.width, srcRect.height);
         this._ctx.clip();
-        this._ctx.beginPath();
         this._ctx.drawImage(
             src.canvas,
             srcRect.x, srcRect.y, srcRect.width, srcRect.height,
             distPoint.x, distPoint.y, srcRect.width, srcRect.height
         );
         this._ctx.restore();
+        this._ctx.beginPath();
     }
 }
 
