@@ -1,3 +1,8 @@
+/*
+ * dotris / geom.js
+ * copyright (c) 2016 Susisu
+ */
+
 "use strict";
 
 export class Point {

@@ -1,3 +1,8 @@
+/*
+ * dotris / bitmap.js
+ * copyright (c) 2016 Susisu
+ */
+
 "use strict";
 
 import { Point, Rectangle, Color } from "./geom.js";
