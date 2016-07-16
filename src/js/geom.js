@@ -1,21 +1,13 @@
 "use strict";
 
-function endModule() {
-    module.exports = Object.freeze({
-        Point,
-        Rectangle,
-        Color
-    });
-}
-
-class Point {
+export class Point {
     constructor(x, y) {
         this.x = x;
         this.y = y;
     }
 }
 
-class Rectangle {
+export class Rectangle {
     constructor(x, y, width, height) {
         this.x      = x;
         this.y      = y;
@@ -24,7 +16,7 @@ class Rectangle {
     }
 }
 
-class Color {
+export class Color {
     constructor(r, g, b, a) {
         this.r = r;
         this.g = g;
@@ -36,5 +28,3 @@ class Color {
         return `rgba(${this.r},${this.g},${this.b},${this.a / 255.0})`;
     }
 }
-
-endModule();

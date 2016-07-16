@@ -1,14 +1,8 @@
 "use strict";
 
-function endModule() {
-    module.exports = Object.freeze({
-        Bitmap
-    });
-}
+import { Point, Rectangle, Color } from "./geom.js";
 
-const geom = require("./geom.js");
-
-class Bitmap {
+export class Bitmap {
     constructor(canvas) {
         this.canvas = canvas;
         this._ctx   = canvas.getContext("2d");
@@ -16,7 +10,7 @@ class Bitmap {
 
     getPixel(point) {
         let pixel = this._ctx.getImageData(point.x, point.y, 1, 1);
-        return new geom.Color(
+        return new Color(
             pixel.data[0],
             pixel.data[1],
             pixel.data[2],
@@ -62,5 +56,3 @@ class Bitmap {
         this._ctx.beginPath();
     }
 }
-
-endModule();
