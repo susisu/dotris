@@ -48,6 +48,7 @@ class Bitmap {
         this._ctx.beginPath();
         this._ctx.rect(distPoint.x, distPoint.y, srcRect.width, srcRect.height);
         this._ctx.clip();
+        this._ctx.beginPath();
         this._ctx.drawImage(
             src.canvas,
             srcRect.x, srcRect.y, srcRect.width, srcRect.height,
