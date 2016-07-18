@@ -1,12 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<title>dotris</title>
-<link rel="stylesheet" type="text/css" href="static/css/style.css">
-<script type="text/javascript" src="build/js/main.bundle.js"></script>
-</head>
-<body>
-<div id="game-wrapper"></div>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <title>dotris</title>
+        <link rel="stylesheet" type="text/css" href="static/css/style.css">
+        <script type="text/javascript" src="build/js/main.bundle.js"></script>
+    </head>
+    <body>
+        <div id="title">
+            <header>
+                <h1><img src="static/img/logo.png" width="480" height="120" alt="dotris" class="logo-image"></h1>
+            </header>
+            <form id="config-form">
+                <fieldset>
+                    <legend>Size</legend>
+                    <p>
+                        <label>Width: <input name="width" type="number" value="0" class="number"></label>
+                        <label>Height: <input name="height" type="number" value="0" class="number"></label>
+                    </p>
+                </fieldset>
+                <fieldset>
+                    <legend>Display</legend>
+                    <p>
+                        <label><input name="scaling" type="checkbox" checked>Scaling</label>
+                        <label><input name="high-resolution" type="checkbox">High resolution mode</label>
+                    </p>
+                </fieldset>
+                <fieldset>
+                    <legend>Color Scheme</legend>
+                    <p>
+                        <label><input name="color-scheme" type="radio" value="standard" checked>Standard</label>
+                        <label><input name="color-scheme" type="radio" value="grayscale">Grayscale</label>
+                    </p>
+                </fieldset>
+                <p>
+                    <input id="play-button" type="button" value="Play" class="button">
+                    <input id="auto-play-button" type="button" value="Auto play" class="button">
+                    <input id="full-screen-button" type="button" value="Full screen" class="button">
+                </p>
+            </form>
+            <footer>
+                <p>
+                    Copyright (c) 2016 Susisu
+                    [<a href="https://github.com/susisu">GitHub</a>] [<a href="https://twitter.com/susisu2413">Twitter</a>]
+                </p>
+            </footer>
+        </div>
+        <div id="game-score"></div>
+        <div id="game-next"></div>
+        <div id="game-hold"></div>
+        <div id="game-wrapper"></div>
+    </body>
 </html>
