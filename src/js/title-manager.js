@@ -57,6 +57,7 @@ export class TitleManager extends EventEmitter2 {
         this._enabled = false;
 
         this._configForm       = window.document.getElementById("config-form");
+        this._maximizeButton   = window.document.getElementById("maximize-button");
         this._playButton       = window.document.getElementById("play-button");
         this._autoPlayButton   = window.document.getElementById("auto-play-button");
         this._fullScreenButton = window.document.getElementById("full-screen-button");
@@ -69,6 +70,13 @@ export class TitleManager extends EventEmitter2 {
 
         this._configForm.addEventListener("change", () => {
             this._updateGameSizeConfig(false);
+        });
+
+        this._maximizeButton.addEventListener("click", () => {
+            if (this._enabled) {
+                this._configForm["width"].value  = `${this._gameMaxWidth}`;
+                this._configForm["height"].value = `${this._gameMaxHeight}`;
+            }
         });
 
         this._playButton.addEventListener("click", () => {
