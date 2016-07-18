@@ -29,6 +29,19 @@ export class Color {
         this.a = a;
     }
 
+    static fromInt(n) {
+        return new Color(
+            (n >>> 16) & 0xFF,
+            (n >>> 8) & 0xFF,
+            n & 0xFF,
+            (n >>> 24) & 0xFF
+        );
+    }
+
+    toInt() {
+        return (this.a << 24) | (this.r << 16) | (this.g << 8) | this.b;
+    }
+
     toCSSColor() {
         return `rgba(${this.r},${this.g},${this.b},${this.a / 255.0})`;
     }
