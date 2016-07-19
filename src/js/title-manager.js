@@ -7,36 +7,7 @@
 
 import { EventEmitter2 } from "eventemitter2";
 
-const FULL_SCREEN_ENABLED = !!(
-    window.document.fullScreenEnabled
-    || window.document.mozFullScreenEnabled
-    || window.document.webkitFullscreenEnabled
-);
-
-function requestFullscreen() {
-    let f = window.document.body.requestFullscreen
-        || window.document.body.mozRequestFullScreen
-        || window.document.body.webkitRequestFullscreen;
-    if (typeof f === "function") {
-        f.call(window.document.body);
-    }
-}
-
-function isFullscreen() {
-    let elem = document.fullscreenElement
-        || document.mozFullScreenElement
-        || document.webkitFullscreenElement;
-    return !!elem;
-}
-
-function exitFullscreen() {
-    let f = window.document.exitFullscreen
-        || window.document.mozCancelFullScreen
-        || window.document.webkitExitFullscreen;
-    if (typeof f === "function") {
-        f.call(window.document);
-    }
-}
+import { toggleFullscreen } from "./fullscreen.js";
 
 const GAME_MIN_WIDTH  = 10;
 const GAME_MIN_HEIGHT = 20;
@@ -93,14 +64,7 @@ export class TitleManager extends EventEmitter2 {
 
         this._fullScreenButton.addEventListener("click", () => {
             if (this._enabled) {
-                if (FULL_SCREEN_ENABLED) {
-                    if (isFullscreen()) {
-                        exitFullscreen();
-                    }
-                    else {
-                        requestFullscreen();
-                    }
-                }
+                toggleFullscreen();
             }
         });
     }
