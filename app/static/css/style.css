@@ -85,7 +85,7 @@ html, body {
     text-align      : right;
     border          : 1px solid #808080;
     background-color: #404040;
-    color           : #FFFFFF;
+    color           : #F0F0F0;
     font-family     : monospace;
     font-size       : 10pt;
 }
@@ -97,7 +97,7 @@ html, body {
 #config-form .button {
     border          : 1px solid #808080;
     background-color: #404040;
-    color           : #FFFFFF;
+    color           : #F0F0F0;
     font-family     : monospace;
     font-size       : 10pt;
 }
@@ -110,7 +110,7 @@ html, body {
     display               : none;
     position              : absolute;
     z-index               : 0;
-    border                : 1px solid #FFFFFF;
+    border                : 1px solid #F0F0F0;
     overflow              : hidden;
     image-rendering       : pixelated;
     image-rendering       : -moz-crisp-edges;
