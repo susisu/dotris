@@ -30,13 +30,13 @@ const ColorScheme = Object.freeze({
         blockJ    : 0xFF8080FF,
         blockL    : 0xFFFF8000,
         blockT    : 0xFFFF00FF,
-        shadowI   : 0x8000FFFF,
-        shadowO   : 0x80FFFF00,
-        shadowS   : 0x8000FF00,
-        shadowZ   : 0x80FF8080,
-        shadowJ   : 0x808080FF,
-        shadowL   : 0x80FF8000,
-        shadowT   : 0x80FF00FF
+        ghostI    : 0x8000FFFF,
+        ghostO    : 0x80FFFF00,
+        ghostS    : 0x8000FF00,
+        ghostZ    : 0x80FF8080,
+        ghostJ    : 0x808080FF,
+        ghostL    : 0x80FF8000,
+        ghostT    : 0x80FF00FF
     }),
     grayscale: toColors({
         background: 0xFF404040,
@@ -47,13 +47,13 @@ const ColorScheme = Object.freeze({
         blockJ    : 0xFFC0C0C0,
         blockL    : 0xFFC0C0C0,
         blockT    : 0xFFC0C0C0,
-        shadowI   : 0xFF808080,
-        shadowO   : 0xFF808080,
-        shadowS   : 0xFF808080,
-        shadowZ   : 0xFF808080,
-        shadowJ   : 0xFF808080,
-        shadowL   : 0xFF808080,
-        shadowT   : 0xFF808080
+        ghostI    : 0xFF808080,
+        ghostO    : 0xFF808080,
+        ghostS    : 0xFF808080,
+        ghostZ    : 0xFF808080,
+        ghostJ    : 0xFF808080,
+        ghostL    : 0xFF808080,
+        ghostT    : 0xFF808080
     })
 });
 
