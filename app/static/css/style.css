@@ -23,6 +23,7 @@ html, body {
     background-color: #404040;
     color           : #F0F0F0;
     text-align      : center;
+    font-size       : 10pt;
     font-family     : monospace;
     border-radius   : 20px;
     box-shadow      : 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
@@ -58,7 +59,6 @@ html, body {
     width    : 480px;
     height   : 40px;
     bottom   : 0px;
-    font-size: 10pt;
 }
 
 #title footer p {
@@ -72,7 +72,6 @@ html, body {
     padding   : 0px 8px;
     width     : 464px;
     height    : 320px;
-    font-size : 10pt;
 }
 
 #config-form fieldset {
@@ -87,6 +86,8 @@ html, body {
     border          : 1px solid #808080;
     background-color: #404040;
     color           : #FFFFFF;
+    font-family     : monospace;
+    font-size       : 10pt;
 }
 
 #config-form .number:hover {
@@ -97,6 +98,8 @@ html, body {
     border          : 1px solid #808080;
     background-color: #404040;
     color           : #FFFFFF;
+    font-family     : monospace;
+    font-size       : 10pt;
 }
 
 #config-form .button:hover {
