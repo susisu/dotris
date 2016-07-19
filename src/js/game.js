@@ -15,6 +15,7 @@ const BORDER_THICKNESS = 1;
 const TOP_PADDING      = 6;
 
 const BORDER_COLOR = new Color(255, 255, 255, 255);
+const CLEAR_COLOR  = new Color(0, 0, 0, 0);
 
 export class Game extends EventEmitter2 {
     constructor(config) {
@@ -30,8 +31,7 @@ export class Game extends EventEmitter2 {
         this._canvas.height = this._height;
 
         this._bmp = new Bitmap(this._canvas);
-        this._drawBorder();
-        this._debugDrawArea();
+        this._initCanvas();
     }
 
     get innerWidth() {
@@ -70,7 +70,10 @@ export class Game extends EventEmitter2 {
         return this._canvas;
     }
 
-    _drawBorder() {
+    _initCanvas() {
+        // clear whole canvas
+        this._bmp.fillRect(new Rectangle(0, 0, this.width, this.height), CLEAR_COLOR);
+        // draw borders
         this._bmp.fillRect(new Rectangle(              0,                0, this._width,            1), BORDER_COLOR);
         this._bmp.fillRect(new Rectangle(              0, this._height - 1, this._width,            1), BORDER_COLOR);
         this._bmp.fillRect(new Rectangle(              0,                0,           1, this._height), BORDER_COLOR);
