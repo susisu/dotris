@@ -117,6 +117,7 @@ html, body {
     image-rendering       : -webkit-crisp-edges;
     image-rendering       : crisp-edges;
     -ms-interpolation-mode: nearest-neighbor;
+    cursor                : none;
 }
 
 .game-canvas {
