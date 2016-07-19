@@ -24,14 +24,14 @@ function main() {
 
         game.scaling      = config.scaling;
         game.hiResolution = config.hiResolution;
-        // TODO: game.colorScheme
 
         game.once("quit", onGameQuit);
         game.show();
         game.start({
-            width   : config.width,
-            height  : config.height,
-            autoPlay: config.autoPlay
+            width      : config.width,
+            height     : config.height,
+            colorScheme: config.colorScheme,
+            autoPlay   : config.autoPlay
         });
     }
 

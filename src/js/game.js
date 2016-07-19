@@ -17,13 +17,13 @@ const TOP_PADDING      = 6;
 const BORDER_COLOR = new Color(255, 255, 255, 255);
 
 export class Game extends EventEmitter2 {
-    constructor(innerWidth, innerHeight, option) {
+    constructor(config) {
         super();
-        this._innerWidth  = innerWidth;
-        this._innerHeight = innerHeight;
+        this._innerWidth  = config.innerWidth;
+        this._innerHeight = config.innerHeight;
 
-        this._width  = innerWidth + BORDER_THICKNESS * 2;
-        this._height = innerHeight + BORDER_THICKNESS * 2 + TOP_PADDING;
+        this._width  = config.innerWidth + BORDER_THICKNESS * 2;
+        this._height = config.innerHeight + BORDER_THICKNESS * 2 + TOP_PADDING;
 
         this._canvas = window.document.createElement("canvas");
         this._canvas.width  = this._width;

@@ -7,9 +7,55 @@
 
 import { EventEmitter2 } from "eventemitter2";
 
+import { Color } from "./geom.js";
 import { Game } from "./game.js";
 
 const WRAPPER_BORDER_THICKNESS = 1;
+
+function toColors(obj) {
+    let colors = {};
+    for (let key in obj) {
+        colors[key] = Color.fromInt(obj[key]);
+    }
+    return colors;
+}
+
+const ColorScheme = Object.freeze({
+    standard: toColors({
+        background: 0xFF000000,
+        blockI    : 0xFF00FFFF,
+        blockO    : 0xFFFFFF00,
+        blockS    : 0xFF00FF00,
+        blockZ    : 0xFFFF8080,
+        blockJ    : 0xFF8080FF,
+        blockL    : 0xFFFF8000,
+        blockT    : 0xFFFF00FF,
+        shadowI   : 0x8000FFFF,
+        shadowO   : 0x80FFFF00,
+        shadowS   : 0x8000FF00,
+        shadowZ   : 0x80FF8080,
+        shadowJ   : 0x808080FF,
+        shadowL   : 0x80FF8000,
+        shadowT   : 0x80FF00FF
+    }),
+    grayscale: toColors({
+        background: 0xFF404040,
+        blockI    : 0xFFC0C0C0,
+        blockO    : 0xFFC0C0C0,
+        blockS    : 0xFFC0C0C0,
+        blockZ    : 0xFFC0C0C0,
+        blockJ    : 0xFFC0C0C0,
+        blockL    : 0xFFC0C0C0,
+        blockT    : 0xFFC0C0C0,
+        shadowI   : 0xFF808080,
+        shadowO   : 0xFF808080,
+        shadowS   : 0xFF808080,
+        shadowZ   : 0xFF808080,
+        shadowJ   : 0xFF808080,
+        shadowL   : 0xFF808080,
+        shadowT   : 0xFF808080
+    })
+});
 
 export class GameManager extends EventEmitter2 {
     constructor() {
@@ -98,12 +144,20 @@ export class GameManager extends EventEmitter2 {
             this._width  = config.width;
             this._height = config.height;
 
-            this._wrapper.style.width  = `${this._width}px`;
-            this._wrapper.style.height = `${this._height}px`;
+            let colors = ColorScheme[config.colorScheme] || ColorScheme.standard;
+
+            this._wrapper.style.width           = `${this._width}px`;
+            this._wrapper.style.height          = `${this._height}px`;
+            this._wrapper.style.backgroundColor = colors.background.toCSSColor();
+
             this._center();
             this._rescale(false);
 
-            this._game = new Game(this._width, this._height, {});
+            this._game = new Game({
+                innerWidth : this._width,
+                innerHeight: this._height,
+                colors     : colors
+            });
             this._game.canvas.className  = "game-canvas";
             this._game.canvas.style.top  = `${-this._game.topOffset}px`;
             this._game.canvas.style.left = `${-this._game.leftOffset}px`;
