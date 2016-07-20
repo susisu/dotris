@@ -59,16 +59,16 @@ const ColorScheme = Object.freeze({
 });
 
 const KeyCode = Object.freeze({
-    moveLeft              : 37, // left
-    moveRight             : 39, // right
-    moveDown              : 40, // down
-    hardDrop              : 38, // up
-    rotateClockwise       : 90, // z
-    rotateCounterclockwise: 88, // x
-    hold                  : 67, // c
-    pause                 : 80, // p
-    toggleView            : 86, // v
-    toggleFullscreen      : 70  // f
+    MOVE_LEFT              : 37, // left
+    MOVE_RIGHT             : 39, // right
+    SOFT_DROP              : 40, // down
+    HARD_DROP              : 38, // up
+    ROTATE_CLOCKWISE       : 90, // z
+    ROTATE_COUNTERCLOCKWISE: 88, // x
+    HOLD                   : 67, // c
+    PAUSE                  : 80, // p
+    TOGGLE_VIEW            : 86, // v
+    TOGGLE_FULLSCREEN      : 70  // f
 });
 
 export class GameManager extends EventEmitter2 {
@@ -205,25 +205,25 @@ export class GameManager extends EventEmitter2 {
 
     _keyboardControl(keyCode) {
         switch (keyCode) {
-        case KeyCode.moveLeft:
+        case KeyCode.MOVE_LEFT:
             break;
-        case KeyCode.moveRight:
+        case KeyCode.MOVE_RIGHT:
             break;
-        case KeyCode.moveDown:
+        case KeyCode.SOFT_DROP:
             break;
-        case KeyCode.hardDrop:
+        case KeyCode.HARD_DROP:
             break;
-        case KeyCode.rotateClockwise:
+        case KeyCode.ROTATE_CLOCKWISE:
             break;
-        case KeyCode.rotateCounterclockwise:
+        case KeyCode.ROTATE_COUNTERCLOCKWISE:
             break;
-        case KeyCode.hold:
+        case KeyCode.HOLD:
             break;
-        case KeyCode.pause:
+        case KeyCode.PAUSE:
             break;
-        case KeyCode.toggleView:
+        case KeyCode.TOGGLE_VIEW:
             break;
-        case KeyCode.toggleFullscreen:
+        case KeyCode.TOGGLE_FULLSCREEN:
             toggleFullscreen();
             break;
         }
