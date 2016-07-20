@@ -23,20 +23,20 @@ function toColors(obj) {
 const ColorScheme = Object.freeze({
     standard: toColors({
         background: 0xFF000000,
-        blockI    : 0xFF00FFFF,
-        blockO    : 0xFFFFFF00,
-        blockS    : 0xFF00FF00,
-        blockZ    : 0xFFFF8080,
+        blockI    : 0xFF40FFFF,
+        blockO    : 0xFFF0F020,
+        blockS    : 0xFF40F040,
+        blockZ    : 0xFFFFA0A0,
         blockJ    : 0xFF8080FF,
-        blockL    : 0xFFFF8000,
-        blockT    : 0xFFFF00FF,
-        ghostI    : 0x8000FFFF,
-        ghostO    : 0x80FFFF00,
-        ghostS    : 0x8000FF00,
-        ghostZ    : 0x80FF8080,
+        blockL    : 0xFFFFC000,
+        blockT    : 0xFFC060FF,
+        ghostI    : 0x8040FFFF,
+        ghostO    : 0x80F0F020,
+        ghostS    : 0x8040F040,
+        ghostZ    : 0x80FFA0A0,
         ghostJ    : 0x808080FF,
-        ghostL    : 0x80FF8000,
-        ghostT    : 0x80FF00FF
+        ghostL    : 0x80FFC000,
+        ghostT    : 0x80C060FF
     }),
     grayscale: toColors({
         background: 0xFF404040,
