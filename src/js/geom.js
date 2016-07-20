@@ -10,6 +10,10 @@ export class Point {
         this.x = x;
         this.y = y;
     }
+
+    static add(p, q) {
+        return new Point(p.x + q.x, p.y + q.y);
+    }
 }
 
 export class Rectangle {
