@@ -81,6 +81,193 @@ const Block = (() => {
     });
 })();
 
+// BlockCorrection[blockType][rotationDegree][rotationDirection(clock/counter)][priority]
+const BlockCorrection = (() => {
+    const DEFAULT_RULE = Object.freeze([
+        [
+            [
+                new Point(-1,  0),
+                new Point(-1, -1),
+                new Point( 0,  2),
+                new Point(-1,  2)
+            ],
+            [
+                new Point( 1,  0),
+                new Point( 1, -1),
+                new Point( 0,  2),
+                new Point( 1,  2)
+            ]
+        ],
+        [
+            [
+                new Point( 1,  0),
+                new Point( 1,  1),
+                new Point( 0, -2),
+                new Point( 1, -2)
+            ],
+            [
+                new Point( 1,  0),
+                new Point( 1,  1),
+                new Point( 0, -2),
+                new Point( 1, -2)
+            ]
+        ],
+        [
+            [
+                new Point( 1,  0),
+                new Point( 1, -1),
+                new Point( 0,  2),
+                new Point( 1,  2)
+            ],
+            [
+                new Point(-1,  0),
+                new Point(-1, -1),
+                new Point( 0,  2),
+                new Point(-1,  2)
+            ]
+        ],
+        [
+            [
+                new Point(-1,  0),
+                new Point(-1,  1),
+                new Point( 0, -2),
+                new Point(-1, -2)
+            ],
+            [
+                new Point(-1,  0),
+                new Point(-1,  1),
+                new Point( 0, -2),
+                new Point(-1, -2)
+            ]
+        ]
+    ]);
+    const I_RULE = Object.freeze([
+        [
+            [
+                new Point(-2,  0),
+                new Point( 1,  0),
+                new Point(-2,  1),
+                new Point( 1, -2)
+            ],
+            [
+                new Point(-1,  0),
+                new Point( 2,  0),
+                new Point(-1, -2),
+                new Point( 2,  1)
+            ]
+        ],
+        [
+            [
+                new Point(-1,  0),
+                new Point( 2,  0),
+                new Point(-1, -2),
+                new Point( 2,  1)
+            ],
+            [
+                new Point( 2,  0),
+                new Point(-1,  0),
+                new Point( 2, -1),
+                new Point(-1,  2)
+            ]
+        ],
+        [
+            [
+                new Point( 1,  0),
+                new Point(-2,  0),
+                new Point( 1,  2),
+                new Point(-2, -1)
+            ],
+            [
+                new Point( 2,  0),
+                new Point(-1,  0),
+                new Point( 2, -1),
+                new Point(-1,  2)
+            ]
+        ],
+        [
+            [
+                new Point( 1,  0),
+                new Point(-2,  0),
+                new Point( 1,  2),
+                new Point(-2, -1)
+            ],
+            [
+                new Point(-2,  0),
+                new Point( 1,  0),
+                new Point(-2,  1),
+                new Point( 1, -2)
+            ]
+        ]
+    ]);
+    const T_RULE = Object.freeze([
+        [
+            [
+                new Point(-1,  0),
+                new Point(-1, -1),
+                // new Point( 0,  2),
+                new Point(-1,  2)
+            ],
+            [
+                new Point( 1,  0),
+                new Point( 1, -1),
+                // new Point( 0,  2),
+                new Point( 1,  2)
+            ]
+        ],
+        [
+            [
+                new Point( 1,  0),
+                new Point( 1,  1),
+                new Point( 0, -2),
+                new Point( 1, -2)
+            ],
+            [
+                new Point( 1,  0),
+                new Point( 1,  1),
+                new Point( 0, -2),
+                new Point( 1, -2)
+            ]
+        ],
+        [
+            [
+                new Point( 1,  0),
+                // new Point( 1, -1),
+                new Point( 0,  2),
+                new Point( 1,  2)
+            ],
+            [
+                new Point(-1,  0),
+                // new Point(-1, -1),
+                new Point( 0,  2),
+                new Point(-1,  2)
+            ]
+        ],
+        [
+            [
+                new Point(-1,  0),
+                new Point(-1,  1),
+                new Point( 0, -2),
+                new Point(-1, -2)
+            ],
+            [
+                new Point(-1,  0),
+                new Point(-1,  1),
+                new Point( 0, -2),
+                new Point(-1, -2)
+            ]
+        ]
+    ]);
+    return Object.freeze({
+        [BlockType.I]: I_RULE,
+        [BlockType.O]: DEFAULT_RULE,
+        [BlockType.S]: DEFAULT_RULE,
+        [BlockType.Z]: DEFAULT_RULE,
+        [BlockType.J]: DEFAULT_RULE,
+        [BlockType.L]: DEFAULT_RULE,
+        [BlockType.T]: T_RULE
+    });
+})();
+
 export class Game extends EventEmitter2 {
     constructor(config) {
         super();
