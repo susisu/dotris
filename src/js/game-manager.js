@@ -9,6 +9,7 @@ import { EventEmitter2 } from "eventemitter2";
 
 import { Color } from "./geom.js";
 import { Game } from "./game.js";
+import { toggleFullscreen } from "./fullscreen.js";
 
 const WRAPPER_BORDER_THICKNESS = 1;
 
@@ -57,6 +58,19 @@ const ColorScheme = Object.freeze({
     })
 });
 
+const KeyCode = Object.freeze({
+    moveLeft              : 37, // left
+    moveRight             : 39, // right
+    moveDown              : 40, // down
+    hardDrop              : 38, // up
+    rotateClockwise       : 90, // z
+    rotateCounterclockwise: 88, // x
+    hold                  : 67, // c
+    pause                 : 80, // p
+    toggleView            : 86, // v
+    toggleFullscreen      : 70  // f
+});
+
 export class GameManager extends EventEmitter2 {
     constructor() {
         super();
@@ -80,6 +94,12 @@ export class GameManager extends EventEmitter2 {
         window.addEventListener("resize", () => {
             this._center();
             this._rescale(false);
+        });
+
+        window.addEventListener("keydown", event => {
+            if (this._enabled) {
+                this._keyboardControl(event.keyCode);
+            }
         });
     }
 
@@ -180,6 +200,32 @@ export class GameManager extends EventEmitter2 {
     quit() {
         if (this._game) {
             // quit
+        }
+    }
+
+    _keyboardControl(keyCode) {
+        switch (keyCode) {
+        case KeyCode.moveLeft:
+            break;
+        case KeyCode.moveRight:
+            break;
+        case KeyCode.moveDown:
+            break;
+        case KeyCode.hardDrop:
+            break;
+        case KeyCode.rotateClockwise:
+            break;
+        case KeyCode.rotateCounterclockwise:
+            break;
+        case KeyCode.hold:
+            break;
+        case KeyCode.pause:
+            break;
+        case KeyCode.toggleView:
+            break;
+        case KeyCode.toggleFullscreen:
+            toggleFullscreen();
+            break;
         }
     }
 }
