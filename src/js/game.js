@@ -27,6 +27,11 @@ export const BlockType = Object.freeze({
     T: "T"
 });
 
+export const BlockColorPrefix = Object.freeze({
+    BLOCK: "block",
+    GHOST: "ghost"
+});
+
 const BLOCK_EMPTY     = 0b000;
 const BLOCK_EXISTS    = 0b001;
 const BLOCK_SPIN      = 0b010;
