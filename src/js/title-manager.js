@@ -31,7 +31,7 @@ export class TitleManager extends EventEmitter2 {
         this._maximizeButton   = window.document.getElementById("maximize-button");
         this._playButton       = window.document.getElementById("play-button");
         this._autoPlayButton   = window.document.getElementById("auto-play-button");
-        this._fullScreenButton = window.document.getElementById("full-screen-button");
+        this._fullscreenButton = window.document.getElementById("fullscreen-button");
 
         this._updateGameSizeConfig(true);
 
@@ -62,7 +62,7 @@ export class TitleManager extends EventEmitter2 {
             }
         });
 
-        this._fullScreenButton.addEventListener("click", () => {
+        this._fullscreenButton.addEventListener("click", () => {
             if (this._enabled) {
                 toggleFullscreen();
             }
