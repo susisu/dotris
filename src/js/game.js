@@ -27,6 +27,60 @@ export const BlockType = Object.freeze({
     T: "T"
 });
 
+const BLOCK_EMPTY     = 0b000;
+const BLOCK_EXISTS    = 0b001;
+const BLOCK_SPIN      = 0b010;
+const BLOCK_SPIN_MINI = 0b100;
+
+const Block = (() => {
+    const _ = BLOCK_EMPTY;
+    const X = BLOCK_EXISTS;
+    const O = BLOCK_SPIN;
+    const A = BLOCK_SPIN_MINI;
+    const B = BLOCK_SPIN | BLOCK_SPIN_MINI;
+    return Object.freeze({
+        [BlockType.I]: [
+            [_, _, _, _],
+            [X, X, X, X],
+            [_, _, _, _],
+            [_, _, _, _]
+        ],
+        [BlockType.O]: [
+            [X, X],
+            [X, X]
+        ],
+        [BlockType.S]: [
+            [_, _, _, _, _],
+            [_, B, X, X, O],
+            [O, X, X, B, _],
+            [_, _, _, _, _],
+            [_, _, _, _, _]
+        ],
+        [BlockType.Z]: [
+            [_, _, _, _, _],
+            [O, X, X, B, _],
+            [_, B, X, X, O],
+            [_, _, _, _, _],
+            [_, _, _, _, _]
+        ],
+        [BlockType.J]: [
+            [X, B, B],
+            [X, X, X],
+            [O, _, O]
+        ],
+        [BlockType.L]: [
+            [B, B, X],
+            [X, X, X],
+            [O, _, O]
+        ],
+        [BlockType.T]: [
+            [O, X, O],
+            [X, X, X],
+            [O, A, O]
+        ]
+    });
+})();
+
 export class Game extends EventEmitter2 {
     constructor(config) {
         super();
