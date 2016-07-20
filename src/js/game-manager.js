@@ -8,7 +8,7 @@
 import { EventEmitter2 } from "eventemitter2";
 
 import { Color } from "./geom.js";
-import { Game } from "./game.js";
+import { Game, BlockType } from "./game.js";
 import { toggleFullscreen } from "./fullscreen.js";
 
 const WRAPPER_BORDER_THICKNESS = 1;
@@ -23,38 +23,38 @@ function toColors(obj) {
 
 const ColorScheme = Object.freeze({
     standard: toColors({
-        background: 0xFF000000,
-        blockI    : 0xFF40FFFF,
-        blockO    : 0xFFF0F020,
-        blockS    : 0xFF40F040,
-        blockZ    : 0xFFFFA0A0,
-        blockJ    : 0xFF8080FF,
-        blockL    : 0xFFFFC000,
-        blockT    : 0xFFC060FF,
-        ghostI    : 0x8040FFFF,
-        ghostO    : 0x80F0F020,
-        ghostS    : 0x8040F040,
-        ghostZ    : 0x80FFA0A0,
-        ghostJ    : 0x808080FF,
-        ghostL    : 0x80FFC000,
-        ghostT    : 0x80C060FF
+        background             : 0xFF000000,
+        [`block${BlockType.I}`]: 0xFF40FFFF,
+        [`block${BlockType.O}`]: 0xFFF0F020,
+        [`block${BlockType.S}`]: 0xFF40F040,
+        [`block${BlockType.Z}`]: 0xFFFFA0A0,
+        [`block${BlockType.J}`]: 0xFF8080FF,
+        [`block${BlockType.L}`]: 0xFFFFC000,
+        [`block${BlockType.T}`]: 0xFFC060FF,
+        [`ghost${BlockType.I}`]: 0x8040FFFF,
+        [`ghost${BlockType.O}`]: 0x80F0F020,
+        [`ghost${BlockType.S}`]: 0x8040F040,
+        [`ghost${BlockType.Z}`]: 0x80FFA0A0,
+        [`ghost${BlockType.J}`]: 0x808080FF,
+        [`ghost${BlockType.L}`]: 0x80FFC000,
+        [`ghost${BlockType.T}`]: 0x80C060FF
     }),
     grayscale: toColors({
-        background: 0xFF404040,
-        blockI    : 0xFFC0C0C0,
-        blockO    : 0xFFC0C0C0,
-        blockS    : 0xFFC0C0C0,
-        blockZ    : 0xFFC0C0C0,
-        blockJ    : 0xFFC0C0C0,
-        blockL    : 0xFFC0C0C0,
-        blockT    : 0xFFC0C0C0,
-        ghostI    : 0xFF808080,
-        ghostO    : 0xFF808080,
-        ghostS    : 0xFF808080,
-        ghostZ    : 0xFF808080,
-        ghostJ    : 0xFF808080,
-        ghostL    : 0xFF808080,
-        ghostT    : 0xFF808080
+        background             : 0xFF404040,
+        [`block${BlockType.I}`]: 0xFFC0C0C0,
+        [`block${BlockType.O}`]: 0xFFC0C0C0,
+        [`block${BlockType.S}`]: 0xFFC0C0C0,
+        [`block${BlockType.Z}`]: 0xFFC0C0C0,
+        [`block${BlockType.J}`]: 0xFFC0C0C0,
+        [`block${BlockType.L}`]: 0xFFC0C0C0,
+        [`block${BlockType.T}`]: 0xFFC0C0C0,
+        [`ghost${BlockType.I}`]: 0xFF808080,
+        [`ghost${BlockType.O}`]: 0xFF808080,
+        [`ghost${BlockType.S}`]: 0xFF808080,
+        [`ghost${BlockType.Z}`]: 0xFF808080,
+        [`ghost${BlockType.J}`]: 0xFF808080,
+        [`ghost${BlockType.L}`]: 0xFF808080,
+        [`ghost${BlockType.T}`]: 0xFF808080
     })
 });
 

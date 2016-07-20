@@ -17,6 +17,16 @@ const TOP_PADDING      = 6;
 const BORDER_COLOR = new Color(255, 255, 255, 255);
 const CLEAR_COLOR  = new Color(0, 0, 0, 0);
 
+export const BlockType = Object.freeze({
+    I: "I",
+    O: "O",
+    S: "S",
+    Z: "Z",
+    J: "J",
+    L: "L",
+    T: "T"
+});
+
 export class Game extends EventEmitter2 {
     constructor(config) {
         super();
