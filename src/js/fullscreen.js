@@ -6,7 +6,7 @@
 "use strict";
 
 export const FULL_SCREEN_ENABLED = !!(
-    window.document.fullScreenEnabled
+    window.document.fullscreenEnabled
     || window.document.mozFullScreenEnabled
     || window.document.webkitFullscreenEnabled
 );
