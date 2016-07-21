@@ -75,10 +75,18 @@ export class GameManager extends EventEmitter2 {
     constructor() {
         super();
 
-        this._wrapper = window.document.getElementById("game-wrapper");
+        this._wrapper   = window.document.getElementById("game-wrapper");
+        this._leftView  = window.document.getElementById("game-left-view");
+        this._rightView = window.document.getElementById("game-right-view");
 
-        this._wrapper.style.display = "none";
+        this._wrapper.style.display   = "none";
+        this._leftView.style.display  = "none";
+        this._rightView.style.display = "none";
         this._enabled = false;
+
+        this._viewOpacityLevel = 2;
+        this._leftView.style.opacity  = `${this._viewOpacityLevel * 0.5}`;
+        this._rightView.style.opacity = `${this._viewOpacityLevel * 0.5}`;
 
         this._width  = 0;
         this._height = 0;
@@ -150,12 +158,16 @@ export class GameManager extends EventEmitter2 {
     }
 
     show() {
-        this._wrapper.style.display = "block";
+        this._wrapper.style.display   = "block";
+        this._leftView.style.display  = "block";
+        this._rightView.style.display = "block";
         this._enabled = true;
     }
 
     hide() {
-        this._wrapper.style.display = "none";
+        this._wrapper.style.display   = "none";
+        this._leftView.style.display  = "none";
+        this._rightView.style.display = "none";
         this._enabled = false;
     }
 
@@ -203,6 +215,12 @@ export class GameManager extends EventEmitter2 {
         }
     }
 
+    _toggleView() {
+        this._viewOpacityLevel = (this._viewOpacityLevel + 1) % 3;
+        this._leftView.style.opacity  = `${this._viewOpacityLevel * 0.5}`;
+        this._rightView.style.opacity = `${this._viewOpacityLevel * 0.5}`;
+    }
+
     _keyboardControl(keyCode) {
         switch (keyCode) {
         case KeyCode.MOVE_LEFT:
@@ -222,6 +240,7 @@ export class GameManager extends EventEmitter2 {
         case KeyCode.PAUSE:
             break;
         case KeyCode.TOGGLE_VIEW:
+            this._toggleView();
             break;
         case KeyCode.TOGGLE_FULLSCREEN:
             toggleFullscreen();
