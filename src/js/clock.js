@@ -34,12 +34,17 @@ export class Clock extends EventEmitter2 {
 
     set frequency(val) {
         this._frequency = val;
-        this._total     = 0.0;
+        this.reset();
     }
 
     start() {
         this._oldTime    = Date.now();
         this._intervalId = window.setInterval(this._onTick, CLOCK_INTERVAL);
+    }
+
+    reset() {
+        this._oldTime = Date.now();
+        this._total   = 0.0;
     }
 
     stop() {
