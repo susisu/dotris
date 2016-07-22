@@ -15,7 +15,7 @@ const BORDER_THICKNESS = 1;
 const TOP_PADDING      = 6;
 
 const BORDER_COLOR = new Color(255, 255, 255, 255);
-const CLEAR_COLOR  = new Color(0, 0, 0, 0);
+const ERASE_COLOR  = new Color(0, 0, 0, 0);
 
 export const BlockType = Object.freeze({
     I: "I",
@@ -413,7 +413,7 @@ export class Game extends EventEmitter2 {
 
     _initCanvas() {
         // clear whole canvas
-        this._bmp.fillRect(new Rectangle(0, 0, this.width, this.height), CLEAR_COLOR);
+        this._bmp.fillRect(new Rectangle(0, 0, this.width, this.height), ERASE_COLOR);
         // draw borders
         this._bmp.fillRect(new Rectangle(              0,                0, this._width,            1), BORDER_COLOR);
         this._bmp.fillRect(new Rectangle(              0, this._height - 1, this._width,            1), BORDER_COLOR);
