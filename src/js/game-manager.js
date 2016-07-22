@@ -106,6 +106,7 @@ export class GameManager extends EventEmitter2 {
 
         window.addEventListener("keydown", event => {
             if (this._enabled) {
+                event.preventDefault();
                 this._keyboardControl(event.keyCode);
             }
         });
