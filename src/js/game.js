@@ -283,6 +283,55 @@ const BlockCorrection = (() => {
     });
 })();
 
+function deepCopyArray(arr) {
+    let copy = [];
+    for (let [i, e] of arr.entries()) {
+        if (Array.isArray(e)) {
+            copy[i] = deepCopyArray(e);
+        }
+        else {
+            copy[i] = e;
+        }
+    }
+    return copy;
+}
+
+function shuffleArray(arr) {
+    let len = arr.length;
+    for (let i = 0; i < len; i++) {
+        let r = Math.floor(Math.random() * len);
+        [arr[i], arr[r]] = [arr[r], arr[i]];
+    }
+    return arr;
+}
+
+function rotateMatrix(mat, clockwise) {
+    let rows = mat.length;
+    let cols = mat[0].length;
+    if (rows === 0 || cols === 0) {
+        throw new Error("invalid matrix");
+    }
+    let copy = [];
+    for (let i = 0; i < cols; i++) {
+        copy[i] = [];
+    }
+    if (clockwise) {
+        for (let i = 0; i < cols; i++) {
+            for (let j = 0; j < rows; j++) {
+                copy[i][j] = mat[rows - 1 - j][i];
+            }
+        }
+    }
+    else {
+        for (let i = 0; i < cols; i++) {
+            for (let j = 0; j < rows; j++) {
+                copy[i][j] = mat[j][rows - 1 - i];
+            }
+        }
+    }
+    return copy;
+}
+
 export class Game extends EventEmitter2 {
     constructor(config) {
         super();
