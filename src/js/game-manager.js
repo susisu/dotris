@@ -93,8 +93,8 @@ export class GameManager extends EventEmitter2 {
 
         this._game = null;
 
-        this._scaling      = false;
-        this._hiResolution = false;
+        this._scaling        = false;
+        this._highResolution = false;
 
         this._center();
         this._rescale(true);
@@ -121,12 +121,12 @@ export class GameManager extends EventEmitter2 {
         this._rescale(true);
     }
 
-    get hiResolution() {
-        return this._hiResolution;
+    get highResolution() {
+        return this._highResolution;
     }
 
-    set hiResolution(val) {
-        this._hiResolution = val;
+    set highResolution(val) {
+        this._highResolution = val;
         this._rescale(true);
     }
 
@@ -148,7 +148,7 @@ export class GameManager extends EventEmitter2 {
             }
         }
         else if (full) {
-            if (this._hiResolution) {
+            if (this._highResolution) {
                 let scale = 1.0 / (window.devicePixelRatio || 1.0);
                 this._wrapper.style.transform = `scale(${scale},${scale})`;
             }

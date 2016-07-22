@@ -22,8 +22,8 @@ function main() {
     function onGamePlay(config) {
         title.hide();
 
-        game.scaling      = config.scaling;
-        game.hiResolution = config.hiResolution;
+        game.scaling        = config.scaling;
+        game.highResolution = config.highResolution;
 
         game.once("quit", onGameQuit);
         game.show();
