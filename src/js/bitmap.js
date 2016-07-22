@@ -23,6 +23,11 @@ export class Bitmap {
         );
     }
 
+    getAlpha(point) {
+        let pixel = this._ctx.getImageData(point.x, point.y, 1, 1);
+        return pixel.data[3];
+    }
+
     setPixel(point, color) {
         let pixel = this._ctx.createImageData(1, 1);
         pixel.data[0] = color.r;
