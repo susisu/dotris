@@ -338,6 +338,8 @@ export class Game extends EventEmitter2 {
         this._innerWidth  = config.innerWidth;
         this._innerHeight = config.innerHeight;
 
+        this._colors = config.colors;
+
         this._width  = config.innerWidth + BORDER_THICKNESS * 2;
         this._height = config.innerHeight + BORDER_THICKNESS * 2 + TOP_PADDING;
 
@@ -347,6 +349,30 @@ export class Game extends EventEmitter2 {
 
         this._bmp = new Bitmap(this._canvas);
         this._initCanvas();
+
+        this._over  = false;
+        this._lines = 0;
+        this._score = 0;
+        this._clock = new Clock(1.0);
+
+        this._block               = null;
+        this._blockType           = undefined;
+        this._blockWidth          = undefined;
+        this._blockHeight         = undefined;
+        this._blockRotationDegree = undefined;
+        this._blockPosition       = undefined;
+        this._ghostPosition       = undefined;
+
+        this._nextBlockTypes = [];
+        this._addNextBlockTypeSequence();
+        this._addNextBlockTypeSequence();
+
+        this._holdable        = true;
+        this._holdedBlockType = undefined;
+
+        this._lineCounter  = new Array(this.height - BORDER_THICKNESS * 2).fill(0);
+        this._willLand     = false;
+        this._lastMovement = undefined;
     }
 
     get innerWidth() {
