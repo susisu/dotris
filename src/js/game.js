@@ -27,6 +27,16 @@ export const BlockType = Object.freeze({
     T: "T"
 });
 
+const BLOCK_TYPES = Object.freeze([
+    BlockType.I,
+    BlockType.O,
+    BlockType.S,
+    BlockType.Z,
+    BlockType.J,
+    BlockType.L,
+    BlockType.T
+]);
+
 export const BlockColorPrefix = Object.freeze({
     BLOCK: "block",
     GHOST: "ghost"
