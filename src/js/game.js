@@ -96,6 +96,21 @@ const Block = (() => {
     });
 })();
 
+const BlockInitYOffset = Object.freeze({
+    [BlockType.I]: -2,
+    [BlockType.O]: -2,
+    [BlockType.S]: -3,
+    [BlockType.Z]: -3,
+    [BlockType.J]: -2,
+    [BlockType.L]: -2,
+    [BlockType.T]: -2,
+});
+
+const BlockRotationDirection = Object.freeze({
+    CLOCKWISE       : 0,
+    COUNTERCLOCKWISE: 1
+});
+
 // BlockCorrection[blockType][rotationDegree][rotationDirection(clock/counter)][priority]
 const BlockCorrection = (() => {
     const DEFAULT_RULE = Object.freeze([
@@ -305,7 +320,7 @@ function shuffleArray(arr) {
     return arr;
 }
 
-function rotateMatrix(mat, clockwise) {
+function rotateMatrix(mat, direction) {
     let rows = mat.length;
     let cols = mat[0].length;
     if (rows === 0 || cols === 0) {
@@ -315,7 +330,7 @@ function rotateMatrix(mat, clockwise) {
     for (let i = 0; i < cols; i++) {
         copy[i] = [];
     }
-    if (clockwise) {
+    if (direction === BlockRotationDirection.CLOCKWISE) {
         for (let i = 0; i < cols; i++) {
             for (let j = 0; j < rows; j++) {
                 copy[i][j] = mat[rows - 1 - j][i];
