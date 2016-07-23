@@ -470,6 +470,27 @@ export class Game extends EventEmitter2 {
         );
     }
 
+    _drawBlock(position, color) {
+        if (this._block !== null) {
+            for (let j = 0; j < this._blockWidth; j++) {
+                for (let i = 0; i < this._blockHeight; i++) {
+                    if (this._block[i][j] & BLOCK_EXISTS !== 0) {
+                        this._bmp.setPixel(Point.add(position, new Point(j, i)), color);
+                    }
+                }
+            }
+        }
+    }
+
+    _drawBlockGhost() {
+        this._drawBlock(this._ghostPosition, this._colors[BlockColorPrefix.GHOST + this._blockType]);
+        this._drawBlock(this._blockPosition, this._colors[BlockColorPrefix.BLOCK + this._blockType]);
+    }
+
+    _eraseBlockGhost() {
+        this._drawBlock(this._blockPosition, ERASE_COLOR);
+        this._drawBlock(this._ghostPosition, ERASE_COLOR);
+    }
     start() {
         if (!this._over) {
             this._paused = false;
