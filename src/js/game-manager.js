@@ -195,6 +195,8 @@ export class GameManager extends EventEmitter2 {
             this._game.canvas.style.top  = `${-this._game.topOffset}px`;
             this._game.canvas.style.left = `${-this._game.leftOffset}px`;
             this._wrapper.appendChild(this._game.canvas);
+
+            this._game.start();
         }
     }
 
@@ -225,20 +227,28 @@ export class GameManager extends EventEmitter2 {
     _keyboardControl(keyCode) {
         switch (keyCode) {
         case KeyCode.MOVE_LEFT:
+            this._game.moveLeft();
             break;
         case KeyCode.MOVE_RIGHT:
+            this._game.moveRight();
             break;
         case KeyCode.SOFT_DROP:
+            this._game.softDrop();
             break;
         case KeyCode.HARD_DROP:
+            this._game.hardDrop();
             break;
         case KeyCode.ROTATE_CLOCKWISE:
+            this._game.rotateClockwise();
             break;
         case KeyCode.ROTATE_COUNTERCLOCKWISE:
+            this._game.rotateCounterclockwise();
             break;
         case KeyCode.HOLD:
+            this._game.hold();
             break;
         case KeyCode.PAUSE:
+            this._game.pause();
             break;
         case KeyCode.TOGGLE_VIEW:
             this._toggleView();
