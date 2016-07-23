@@ -298,6 +298,12 @@ const BlockCorrection = (() => {
     });
 })();
 
+const MovementType = Object.freeze({
+    SPAWN : "spawn",
+    MOVE  : "move",
+    ROTATE: "rotate"
+});
+
 function deepCopyArray(arr) {
     let copy = [];
     for (let [i, e] of arr.entries()) {
