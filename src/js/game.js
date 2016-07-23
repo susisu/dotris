@@ -399,6 +399,9 @@ export class Game extends EventEmitter2 {
         this._backToBack   = false;
 
         this._spawNewBlock();
+        this._clock.on("clock", () => {
+            this.softDrop();
+        });
     }
 
     get innerWidth() {
