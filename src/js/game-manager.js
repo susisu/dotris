@@ -224,6 +224,9 @@ export class GameManager extends EventEmitter2 {
             this._game.canvas.style.left = `${-this._game.leftOffset}px`;
             this._wrapper.appendChild(this._game.canvas);
 
+            this._paused = false;
+            this._updateVisibility();
+
             this._game.start();
         }
     }
