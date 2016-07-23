@@ -512,37 +512,47 @@ export class Game extends EventEmitter2 {
     }
 
     _blockSpinTest() {
-        let counter = 0;
-        for (let j = 0; j < this._blockWidth; j++) {
-            for (let i = 0; i < this._blockHeight; i++) {
-                if (this._block[i][j] & BLOCK_SPIN !== 0) {
-                    let alpha = this._bmp.getAlpha(Point.add(this._blockPosition, new Point(j, i)));
-                    if (alpha > 0) {
-                        counter++;
+        if (this._lastMovement === MovementType.ROTATE) {
+            let counter = 0;
+            for (let j = 0; j < this._blockWidth; j++) {
+                for (let i = 0; i < this._blockHeight; i++) {
+                    if (this._block[i][j] & BLOCK_SPIN !== 0) {
+                        let alpha = this._bmp.getAlpha(Point.add(this._blockPosition, new Point(j, i)));
+                        if (alpha > 0) {
+                            counter++;
+                        }
                     }
                 }
             }
+            return counter >= 3;
         }
-        return counter >= 3;
+        else {
+            return false;
+        }
     }
 
     _blockSpinMiniTest() {
-        let counter = 0;
-        for (let j = 0; j < this._blockWidth; j++) {
-            for (let i = 0; i < this._blockHeight; i++) {
-                if (this._block[i][j] & BLOCK_SPIN_MINI !== 0) {
-                    let alpha = this._bmp.getAlpha(Point.add(this._blockPosition, new Point(j, i)));
-                    if (alpha > 0) {
-                        counter++;
+        if (this._lastMovement === MovementType.ROTATE) {
+            let counter = 0;
+            for (let j = 0; j < this._blockWidth; j++) {
+                for (let i = 0; i < this._blockHeight; i++) {
+                    if (this._block[i][j] & BLOCK_SPIN_MINI !== 0) {
+                        let alpha = this._bmp.getAlpha(Point.add(this._blockPosition, new Point(j, i)));
+                        if (alpha > 0) {
+                            counter++;
+                        }
                     }
                 }
             }
-        }
-        if (this._blockType === BlockType.T) {
-            return counter === 1;
+            if (this._blockType === BlockType.T) {
+                return counter === 1;
+            }
+            else {
+                return counter <= 1;
+            }
         }
         else {
-            return counter <= 1;
+            return false;
         }
     }
 
