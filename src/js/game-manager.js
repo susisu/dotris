@@ -67,6 +67,7 @@ const KeyCode = Object.freeze({
     ROTATE_COUNTERCLOCKWISE: 88, // x
     HOLD                   : 67, // c
     PAUSE                  : 80, // p
+    QUIT                   : 81, // q
     TOGGLE_VIEW            : 86, // v
     TOGGLE_FULLSCREEN      : 70  // f
 });
@@ -278,6 +279,11 @@ export class GameManager extends EventEmitter2 {
             this._game.pause();
             this._paused = !this._paused;
             this._updateVisibility();
+            break;
+        case KeyCode.QUIT:
+            if (this._paused) {
+                // quit
+            }
             break;
         case KeyCode.TOGGLE_VIEW:
             this._toggleView();
