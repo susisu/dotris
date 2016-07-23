@@ -646,6 +646,35 @@ export class Game extends EventEmitter2 {
         }
     }
 
+    _hold() {
+        if (this._holdable) {
+            this._eraseBlockGhost();
+            if (this._holdedBlockType === undefined) {
+                this._holdedBlockType = this._blockType;
+                this._setCurrentBlock(this._popNextBlockType());
+            }
+            else {
+                let blockType         = this._holdedBlockType;
+                this._holdedBlockType = this._blockType;
+                this._setCurrentBlock(blockType);
+            }
+
+            this._holdable     = false;
+            this._lastMovement = MovementType.SPAWN;
+
+            if (this._blockHitTest()) {
+                this._over = true;
+                this._clock.stop();
+                this.emit("over");
+            }
+            else {
+                this._clock.reset();
+                this._updateGhostPosition();
+                this._drawBlockGhost();
+            }
+        }
+    }
+
     start() {
         if (!this._over) {
             this._paused = false;
