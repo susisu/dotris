@@ -541,6 +541,33 @@ export class Game extends EventEmitter2 {
         }
     }
 
+    _getLandPosition() {
+        let bottom = new Array(this._blockWidth).fill(-1);
+        for (let j = 0; j < this._blockWidth; j++) {
+            for (let i = this._blockHeight - 1; i >= 0; i--) {
+                if (this._block[i][j] & BLOCK_EXISTS !== 0) {
+                    bottom[j] = i;
+                    break;
+                }
+            }
+        }
+        let minY = this._height;
+        for (let j = 0; j < this._blockWidth; j++) {
+            if (bottom[j] >= 0) {
+                for (let y = this._blockPosition.y; y < this._height; y++) {
+                    let alpha = this._bmp.getAlpha(new Point(this._blockPosition.x + j, y + bottom[j] + 1));
+                    if (alpha > 0) {
+                        if (y < minY) {
+                            minY = y;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return new Point(this._blockPosition.x, minY);
+    }
+
     start() {
         if (!this._over) {
             this._paused = false;
