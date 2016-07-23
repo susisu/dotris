@@ -366,10 +366,11 @@ export class Game extends EventEmitter2 {
         this._bmp = new Bitmap(this._canvas);
         this._initCanvas();
 
-        this._over  = false;
-        this._lines = 0;
-        this._score = 0;
-        this._clock = new Clock(1.0);
+        this._over   = false;
+        this._lines  = 0;
+        this._score  = 0;
+        this._clock  = new Clock(1.0);
+        this._paused = true;
 
         this._block               = null;
         this._blockType           = undefined;
@@ -467,5 +468,25 @@ export class Game extends EventEmitter2 {
             new Rectangle(this._width - 1 - BORDER_THICKNESS, BORDER_THICKNESS + TOP_PADDING, 1, this._innerHeight),
             EDGE_COLOR
         );
+    }
+
+    start() {
+        if (!this._over) {
+            this._paused = false;
+            this._clock.start();
+        }
+    }
+
+    pause() {
+        if (!this._over) {
+            if (this._paused) {
+                this._paused = false;
+                this._clock.start();
+            }
+            else {
+                this._paused = true;
+                this._clock.stop();
+            }
+        }
     }
 }
