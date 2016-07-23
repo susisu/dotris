@@ -598,6 +598,54 @@ export class Game extends EventEmitter2 {
         return new Point(this._blockPosition.x, minY);
     }
 
+    _updateGhostPosition() {
+        this._ghostPosition = this._getLandPosition();
+    }
+
+    _addNextBlockTypeSequence() {
+        this._nextBlockTypes = this._nextBlockTypes.concat(shuffleArray(BLOCK_TYPES.slice()));
+    }
+
+    _popNextBlockType() {
+        let blockType = this._nextBlockTypes.pop();
+        if (this._nextBlockTypes.length <= BLOCK_TYPES.length) {
+            this._addNextBlockTypeSequence();
+        }
+        return blockType;
+    }
+
+    _setCurrentBlock(blockType) {
+        this._block               = deepCopyArray(Block[blockType]);
+        this._blockType           = blockType;
+        this._blockWidth          = this._block[0].length;
+        this._blockHeight         = this._block.length;
+        this._blockRotationDegree = 0;
+        this._blockPosition       = new Point(
+            BORDER_THICKNESS + Math.floor((this.width - BORDER_THICKNESS * 2 - this._blockWidth) / 2),
+            BORDER_THICKNESS + TOP_PADDING + BlockInitYOffset[blockType]
+        );
+    }
+
+    _spawNewBlock() {
+        if (this._block === null) {
+            this._setCurrentBlock(this._popNextBlockType());
+
+            this._holdable     = true;
+            this._lastMovement = MovementType.SPAWN;
+
+            if (this._blockHitTest()) {
+                this._over = true;
+                this._clock.stop();
+                this.emit("over");
+            }
+            else {
+                this._clock.reset();
+                this._updateGhostPosition();
+                this._drawBlockGhost();
+            }
+        }
+    }
+
     start() {
         if (!this._over) {
             this._paused = false;
