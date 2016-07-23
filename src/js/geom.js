@@ -14,6 +14,10 @@ export class Point {
     static add(p, q) {
         return new Point(p.x + q.x, p.y + q.y);
     }
+
+    static equal(p, q) {
+        return p.x === q.x && p.y === q.y;
+    }
 }
 
 export class Rectangle {
