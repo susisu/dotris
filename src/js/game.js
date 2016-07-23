@@ -397,6 +397,8 @@ export class Game extends EventEmitter2 {
         this._lineCounter  = new Array(this._fieldHeight).fill(0);
         this._lastMovement = undefined;
         this._backToBack   = false;
+
+        this._spawNewBlock();
     }
 
     get innerWidth() {
