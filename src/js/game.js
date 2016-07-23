@@ -13,6 +13,7 @@ import { Clock } from "./clock.js";
 
 const BORDER_THICKNESS = 1;
 const TOP_PADDING      = 6;
+const FORBIDDEN_LINES  = 4;
 
 const BORDER_COLOR = new Color(255, 255, 255, 255);
 const ERASE_COLOR  = new Color(0, 0, 0, 0);
@@ -395,6 +396,7 @@ export class Game extends EventEmitter2 {
 
         this._lineCounter  = new Array(this._fieldHeight).fill(0);
         this._lastMovement = undefined;
+        this._backToBack   = false;
     }
 
     get innerWidth() {
@@ -673,6 +675,204 @@ export class Game extends EventEmitter2 {
                 this._drawBlockGhost();
             }
         }
+    }
+
+    _moveBlock(vector) {
+        this._eraseBlockGhost();
+        let wouldLand = this._willLand();
+        let oldPosition     = this._blockPosition;
+        this._blockPosition = Point.add(this._blockPosition, vector);
+        if (this._blockHitTest()) {
+            this._blockPosition = oldPosition;
+            this._drawBlockGhost();
+        }
+        else {
+            this._lastMovement = MovementType.MOVE;
+            if (wouldLand) {
+                this._clock.reset();
+            }
+            this._updateGhostPosition();
+            this._drawBlockGhost();
+        }
+    }
+
+    _rotateBlock(direction) {
+        this._eraseBlockGhost();
+        let wouldLand = this._willLand();
+        let oldBlock    = this._block;
+        let oldPosition = this._blockPosition;
+        this._block     = rotateMatrix(this._block, direction);
+        let succeeded = false;
+        if (this._blockHitTest()) {
+            let corrs = BlockCorrection[this._blockType][this._blockRotationDegree][direction];
+            for (let corr of corrs) {
+                this._blockPosition = Point.add(oldPosition, corr);
+                if (!this._blockHitTest()) {
+                    succeeded = true;
+                    break;
+                }
+            }
+        }
+        else {
+            succeeded = true;
+        }
+        if (succeeded) {
+            let directionPM           = direction === BlockRotationDirection.CLOCKWISE ? 1 : -1;
+            this._blockRotationDegree = (this._blockRotationDegree + directionPM + 4) % 4;
+            this._lastMovement = MovementType.ROTATE;
+            if (wouldLand) {
+                this._clock.reset();
+            }
+            this._updateGhostPosition();
+            this._drawBlockGhost();
+        }
+        else {
+            this._block         = oldBlock;
+            this._blockPosition = oldPosition;
+            this._drawBlockGhost();
+        }
+    }
+
+    _softDrop() {
+        this._eraseBlockGhost();
+        if (this._willLand()) {
+            this._landBlock();
+        }
+        else {
+            let oldPosition     = this._blockPosition;
+            this._blockPosition = Point.add(this._blockPosition, new Point(0, 1));
+            if (this._blockHitTest()) {
+                // won't come here
+                this._blockPosition = oldPosition;
+                this._landBlock();
+            }
+            else {
+                this._lastMovement = MovementType.MOVE;
+                this._drawBlockGhost();
+            }
+        }
+    }
+
+    _hardDrop() {
+        this._eraseBlockGhost();
+        let oldPosition     = this._blockPosition;
+        this._blockPosition = this._getLandPosition();
+        if (!Point.equal(oldPosition, this._blockPosition)) {
+            this._lastMovement  = MovementType.MOVE;
+        }
+        this._landBlock();
+    }
+
+    _landBlock() {
+        this._eraseBlockGhost();
+        this._drawBlock(this._blockPosition, this._colors[BlockColorPrefix.BLOCK + this._blockType]);
+        for (let j = 0; j < this._blockWidth; j++) {
+            for (let i = 0; i < this._blockHeight; i++) {
+                if (this._block[i][j] & BLOCK_EXISTS !== 0) {
+                    this._lineCounter[this._blockPosition.y - BORDER_THICKNESS + i]++;
+                }
+            }
+        }
+        this._deleteLines();
+        if (this._checkForbiddenLines()) {
+            this._block = null;
+            this._spawNewBlock();
+        }
+    }
+
+    _deleteLines() {
+        let spin     = this._blockSpinTest();
+        let spinMini = this._blockSpinMiniTest();
+        let minI = 0;
+        for (let i = 0; i < this._fieldHeight; i++) {
+            if (this._lineCounter[i] > 0) {
+                minI = i;
+                break;
+            }
+        }
+        let deleteCounter = 0;
+        for (let i = minI; i < this._fieldHeight; i++) {
+            if (this._lineCounter[i] === this._fieldWidth) {
+                this._bmp.copyPixels(
+                    this._bmp,
+                    new Rectangle(BORDER_THICKNESS, BORDER_THICKNESS + minI, this._fieldWidth, i - minI),
+                    new Point(BORDER_THICKNESS, BORDER_THICKNESS + minI + 1)
+                );
+                this._bmp.fillRect(
+                    new Rectangle(BORDER_THICKNESS, BORDER_THICKNESS + minI, this._fieldWidth, 1),
+                    ERASE_COLOR
+                );
+                this._lineCounter.splice(i, 1);
+                this._lineCounter.unshift(0);
+                deleteCounter++;
+            }
+        }
+        if (deleteCounter > 0) {
+            let score = deleteCounter * deleteCounter * this._fieldWidth;
+            if (this._backToBack) {
+                score *= 1.1;
+            }
+            let b2bText = this._backToBack ? "Back-To-Back " : "";
+            switch (deleteCounter) {
+            case 1:
+                if (spin) {
+                    if (spinMini) {
+                        score *= 1.5;
+                        this.emit("message", b2bText + this._blockType + "-Spin Mini");
+                    }
+                    else {
+                        score *= 2;
+                        this.emit("message", b2bText + this._blockType + "-Spin Single");
+                    }
+                    this._backToBack = true;
+                }
+                else {
+                    this._backToBack = false;
+                }
+                break;
+            case 2:
+                if (spin) {
+                    score *= 2;
+                    this.emit("message", b2bText + this._blockType + "-Spin Double");
+                    this._backToBack = true;
+                }
+                else {
+                    this.emit("message", "Double");
+                    this._backToBack = false;
+                }
+                break;
+            case 3:
+                if (spin) {
+                    score *= 2;
+                    this.emit("message", b2bText + this._blockType + "-Spin Triple");
+                    this._backToBack = true;
+                }
+                else {
+                    this.emit("message", "Triple");
+                    this._backToBack = false;
+                }
+                break;
+            case 4:
+                this.emit("message", b2bText + "Quadruple");
+                this._backToBack = true;
+                break;
+            }
+            this._lines += deleteCounter;
+            this._score += Math.floor(score * 10);
+            this.emit("scoreUpdate", { lines: this._lines, score: this._score });
+        }
+    }
+
+    _checkForbiddenLines() {
+        for (let i = 0; i < FORBIDDEN_LINES; i++) {
+            if (this._lineCounter[i] > 0) {
+                this._over = true;
+                this._clock.stop();
+                this.emit("over");
+                return false;
+            }
+        }
+        return true;
     }
 
     start() {
