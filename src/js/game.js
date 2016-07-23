@@ -352,11 +352,12 @@ export class Game extends EventEmitter2 {
         super();
         this._innerWidth  = config.innerWidth;
         this._innerHeight = config.innerHeight;
+        this._colors      = config.colors;
 
-        this._colors = config.colors;
-
-        this._width  = config.innerWidth + BORDER_THICKNESS * 2;
-        this._height = config.innerHeight + BORDER_THICKNESS * 2 + TOP_PADDING;
+        this._fieldWidth  = this._innerWidth;
+        this._fieldHeight = this._innerHeight + TOP_PADDING;
+        this._width       = this._fieldWidth + BORDER_THICKNESS * 2;
+        this._height      = this._fieldHeight + BORDER_THICKNESS * 2;
 
         this._canvas = window.document.createElement("canvas");
         this._canvas.width  = this._width;
@@ -385,7 +386,7 @@ export class Game extends EventEmitter2 {
         this._holdable        = true;
         this._holdedBlockType = undefined;
 
-        this._lineCounter  = new Array(this.height - BORDER_THICKNESS * 2).fill(0);
+        this._lineCounter  = new Array(this._fieldHeight).fill(0);
         this._willLand     = false;
         this._lastMovement = undefined;
     }
