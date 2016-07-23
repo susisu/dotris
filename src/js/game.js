@@ -665,4 +665,46 @@ export class Game extends EventEmitter2 {
             }
         }
     }
+
+    moveLeft() {
+        if (!this._over && !this._paused) {
+            this._moveBlock(new Point(-1, 0));
+        }
+    }
+
+    moveRight() {
+        if (!this._over && !this._paused) {
+            this._moveBlock(new Point(1, 0));
+        }
+    }
+
+    softDrop() {
+        if (!this._over && !this._paused) {
+            this._softDrop();
+        }
+    }
+
+    hardDrop() {
+        if (!this._over && !this._paused) {
+            this._hardDrop();
+        }
+    }
+
+    rotateClockwise() {
+        if (!this._over && !this._paused) {
+            this._rotateBlock(BlockRotationDirection.CLOCKWISE);
+        }
+    }
+
+    rotateCounterclockwise() {
+        if (!this._over && !this._paused) {
+            this._rotateBlock(BlockRotationDirection.COUNTERCLOCKWISE);
+        }
+    }
+
+    hold() {
+        if (!this._over && !this._paused) {
+            this._hold();
+        }
+    }
 }
