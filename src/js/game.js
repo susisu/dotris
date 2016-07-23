@@ -388,7 +388,6 @@ export class Game extends EventEmitter2 {
         this._holdedBlockType = undefined;
 
         this._lineCounter  = new Array(this._fieldHeight).fill(0);
-        this._willLand     = false;
         this._lastMovement = undefined;
     }
 
@@ -539,6 +538,21 @@ export class Game extends EventEmitter2 {
         else {
             return counter <= 1;
         }
+    }
+
+    _willLand() {
+        for (let j = 0; j < this._blockWidth; j++) {
+            for (let i = this._blockHeight - 1; i >= 0; i--) {
+                if (this._block[i][j] & BLOCK_EXISTS !== 0) {
+                    let alpha = this._bmp.getAlpha(Point.add(this._blockPosition, new Point(j, i + 1)));
+                    if (alpha > 0) {
+                        return true;
+                    }
+                    break;
+                }
+            }
+        }
+        return false;
     }
 
     _getLandPosition() {
