@@ -491,6 +491,56 @@ export class Game extends EventEmitter2 {
         this._drawBlock(this._blockPosition, ERASE_COLOR);
         this._drawBlock(this._ghostPosition, ERASE_COLOR);
     }
+
+    _blockHitTest() {
+        for (let j = 0; j < this._blockWidth; j++) {
+            for (let i = 0; i < this._blockHeight; i++) {
+                if (this._block[i][j] & BLOCK_EXISTS !== 0) {
+                    let alpha = this._bmp.getAlpha(Point.add(this._blockPosition, new Point(j, i)));
+                    if (alpha > 0) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    _blockSpinTest() {
+        let counter = 0;
+        for (let j = 0; j < this._blockWidth; j++) {
+            for (let i = 0; i < this._blockHeight; i++) {
+                if (this._block[i][j] & BLOCK_SPIN !== 0) {
+                    let alpha = this._bmp.getAlpha(Point.add(this._blockPosition, new Point(j, i)));
+                    if (alpha > 0) {
+                        counter++;
+                    }
+                }
+            }
+        }
+        return counter >= 3;
+    }
+
+    _blockSpinMiniTest() {
+        let counter = 0;
+        for (let j = 0; j < this._blockWidth; j++) {
+            for (let i = 0; i < this._blockHeight; i++) {
+                if (this._block[i][j] & BLOCK_SPIN_MINI !== 0) {
+                    let alpha = this._bmp.getAlpha(Point.add(this._blockPosition, new Point(j, i)));
+                    if (alpha > 0) {
+                        counter++;
+                    }
+                }
+            }
+        }
+        if (this._blockType === BlockType.T) {
+            return counter === 1;
+        }
+        else {
+            return counter <= 1;
+        }
+    }
+
     start() {
         if (!this._over) {
             this._paused = false;
