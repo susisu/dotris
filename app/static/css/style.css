@@ -80,7 +80,7 @@ html, body {
     border       : 1px solid #808080;
 }
 
-#config-form .number {
+.number {
     width           : 64px;
     text-align      : right;
     border          : 1px solid #808080;
@@ -90,11 +90,11 @@ html, body {
     font-size       : 10pt;
 }
 
-#config-form .number:hover {
+.number:hover {
     background-color: #808080;
 }
 
-#config-form .button {
+.button {
     border          : 1px solid #808080;
     background-color: #404040;
     color           : #F0F0F0;
@@ -102,7 +102,7 @@ html, body {
     font-size       : 10pt;
 }
 
-#config-form .button:hover {
+.button:hover {
     background-color: #808080;
 }
 
@@ -176,6 +176,33 @@ html, body {
 }
 
 #game-paused-view p {
+    margin     : 0px;
+    padding    : 0px;
+    line-height: 40px;
+}
+
+#game-over-view {
+    display         : none;
+    width           : 480px;
+    height          : 160px;
+    position        : absolute;
+    top             : 50%;
+    left            : 50%;
+    margin-top      : -80px;
+    margin-left     : -240px;
+    z-index         : 211;
+    background-color: #404040;
+    color           : #F0F0F0;
+    text-align      : center;
+    font-size       : 10pt;
+    font-family     : monospace;
+    padding         : 10px 0px;
+    border-radius   : 20px;
+    box-shadow      : 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
+    overflow        : hidden;
+}
+
+#game-over-view p {
     margin     : 0px;
     padding    : 0px;
     line-height: 40px;

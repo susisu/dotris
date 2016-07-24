@@ -76,11 +76,14 @@ export class GameManager extends EventEmitter2 {
     constructor() {
         super();
 
-        this._wrapper    = window.document.getElementById("game-wrapper");
-        this._leftView   = window.document.getElementById("game-left-view");
-        this._rightView  = window.document.getElementById("game-right-view");
-        this._pausedView = window.document.getElementById("game-paused-view");
-        this._overView   = window.document.getElementById("game-over-view");
+        this._wrapper        = window.document.getElementById("game-wrapper");
+        this._leftView       = window.document.getElementById("game-left-view");
+        this._rightView      = window.document.getElementById("game-right-view");
+        this._pausedView     = window.document.getElementById("game-paused-view");
+        this._overView       = window.document.getElementById("game-over-view");
+        this._overResult     = window.document.getElementById("game-over-result");
+        this._overShare      = window.document.getElementById("game-over-share");
+        this._overBackButton = window.document.getElementById("game-over-back-button");
 
         this._visible = false;
         this._paused  = false;
@@ -109,18 +112,32 @@ export class GameManager extends EventEmitter2 {
 
         this._onGameScoreUpdate = data => {
         };
+
         this._onGameMessage = message => {
         };
+
         this._onGameOver = () => {
             this._over = true;
+            let resultText = `Size: ${this._width} x ${this._height}, `
+                + `Lines: ${this._game.lines}, `
+                + `Score: ${this._game.score}`;
+            this._overResult.innerText = resultText;
+            this._updateShareButtons(resultText + " - dotris");
             this._updateVisibility();
         };
+
         this._onKeyDown = event => {
             if (this._enabled) {
                 event.preventDefault();
                 this._keyboardControl(event.keyCode);
             }
         };
+
+        this._overBackButton.addEventListener("click", () => {
+            if (this._enabled && this._over) {
+                this.quit();
+            }
+        });
     }
 
     get scaling() {
@@ -207,6 +224,18 @@ export class GameManager extends EventEmitter2 {
     _updateViewOpacity() {
         this._leftView.style.opacity  = `${this._viewOpacityLevel * 0.5}`;
         this._rightView.style.opacity = `${this._viewOpacityLevel * 0.5}`;
+    }
+
+    _updateShareButtons(message) {
+        while (this._overShare.firstChild) {
+            this._overShare.removeChild(this._overShare.firstChild);
+        }
+        // twitter
+        window.twttr.widgets.createShareButton(
+            "",
+            this._overShare,
+            { text: message }
+        );
     }
 
     show() {
