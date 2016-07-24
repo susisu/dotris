@@ -105,12 +105,18 @@ export class GameManager extends EventEmitter2 {
 
         this._game = null;
 
-        window.addEventListener("keydown", event => {
+        this._onGameScoreUpdate = data => {
+        };
+        this._onGameMessage = message => {
+        };
+        this._onGameOver = () => {
+        };
+        this._onKeyDown = event => {
             if (this._enabled) {
                 event.preventDefault();
                 this._keyboardControl(event.keyCode);
             }
-        });
+        };
     }
 
     get scaling() {
@@ -226,6 +232,10 @@ export class GameManager extends EventEmitter2 {
             this._paused = false;
             this._updateVisibility();
 
+            this._game.on("scoreUpdate", this._onGameScoreUpdate);
+            this._game.on("scoreUpdate", this._onGameMessage);
+            this._game.on("over", this._onGameOver);
+            window.addEventListener("keydown", this._onKeyDown);
             this._game.start();
         }
     }
