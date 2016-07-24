@@ -81,28 +81,14 @@ export class GameManager extends EventEmitter2 {
         this._rightView  = window.document.getElementById("game-right-view");
         this._pausedView = window.document.getElementById("game-paused-view");
 
-        this._wrapper.style.display    = "none";
-        this._leftView.style.display   = "none";
-        this._rightView.style.display  = "none";
-        this._pausedView.style.display = "none";
-
         this._visible = false;
         this._paused  = false;
+        this._updateVisibility();
 
         this._enabled = false;
 
-        this._viewOpacityLevel = 2;
-        this._leftView.style.opacity  = `${this._viewOpacityLevel * 0.5}`;
-        this._rightView.style.opacity = `${this._viewOpacityLevel * 0.5}`;
-
-        this._width  = 0;
-        this._height = 0;
-
-        this._game = null;
-
         this._scaling        = false;
         this._highResolution = false;
-
         this._center();
         this._rescale(true);
 
@@ -110,6 +96,14 @@ export class GameManager extends EventEmitter2 {
             this._center();
             this._rescale(false);
         });
+
+        this._viewOpacityLevel = 2;
+        this._updateViewOpacity();
+
+        this._width  = 0;
+        this._height = 0;
+
+        this._game = null;
 
         window.addEventListener("keydown", event => {
             if (this._enabled) {
@@ -188,6 +182,11 @@ export class GameManager extends EventEmitter2 {
         }
     }
 
+    _updateViewOpacity() {
+        this._leftView.style.opacity  = `${this._viewOpacityLevel * 0.5}`;
+        this._rightView.style.opacity = `${this._viewOpacityLevel * 0.5}`;
+    }
+
     show() {
         this._visible = true;
         this._updateVisibility();
@@ -249,12 +248,6 @@ export class GameManager extends EventEmitter2 {
         }
     }
 
-    _toggleView() {
-        this._viewOpacityLevel = (this._viewOpacityLevel + 1) % 3;
-        this._leftView.style.opacity  = `${this._viewOpacityLevel * 0.5}`;
-        this._rightView.style.opacity = `${this._viewOpacityLevel * 0.5}`;
-    }
-
     _keyboardControl(keyCode) {
         switch (keyCode) {
         case KeyCode.MOVE_LEFT:
@@ -289,7 +282,8 @@ export class GameManager extends EventEmitter2 {
             }
             break;
         case KeyCode.TOGGLE_VIEW:
-            this._toggleView();
+            this._viewOpacityLevel = (this._viewOpacityLevel + 1) % 3;
+            this._updateViewOpacity();
             break;
         case KeyCode.TOGGLE_FULLSCREEN:
             toggleFullscreen();
