@@ -657,7 +657,7 @@ export class Game extends EventEmitter2 {
         }
         else {
             this._lastMovement = MovementType.MOVE;
-            if (wouldLand) {
+            if (wouldLand || this._willLand()) {
                 this._clock.reset();
             }
             this._updateGhostPosition();
@@ -689,7 +689,7 @@ export class Game extends EventEmitter2 {
             let directionPM           = direction === BlockRotationDirection.CLOCKWISE ? 1 : -1;
             this._blockRotationDegree = (this._blockRotationDegree + directionPM + 4) % 4;
             this._lastMovement = MovementType.ROTATE;
-            if (wouldLand) {
+            if (wouldLand || this._willLand()) {
                 this._clock.reset();
             }
             this._updateGhostPosition();
