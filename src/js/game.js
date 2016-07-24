@@ -609,9 +609,7 @@ export class Game extends EventEmitter2 {
             this._lastMovement = MovementType.SPAWN;
 
             if (this._blockHitTest()) {
-                this._over = true;
-                this._clock.stop();
-                this.emit("over");
+                this.quit();
             }
             else {
                 this._clock.reset();
@@ -638,9 +636,7 @@ export class Game extends EventEmitter2 {
             this._lastMovement = MovementType.SPAWN;
 
             if (this._blockHitTest()) {
-                this._over = true;
-                this._clock.stop();
-                this.emit("over");
+                this.quit();
             }
             else {
                 this._clock.reset();
@@ -839,9 +835,7 @@ export class Game extends EventEmitter2 {
     _checkForbiddenLines() {
         for (let i = 0; i < FORBIDDEN_LINES; i++) {
             if (this._lineCounter[i] > 0) {
-                this._over = true;
-                this._clock.stop();
-                this.emit("over");
+                this.quit();
                 return false;
             }
         }
@@ -866,6 +860,12 @@ export class Game extends EventEmitter2 {
                 this._clock.stop();
             }
         }
+    }
+
+    quit() {
+        this._over = true;
+        this._clock.stop();
+        this.emit("over");
     }
 
     moveLeft() {
