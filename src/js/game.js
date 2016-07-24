@@ -804,6 +804,7 @@ export class Game extends EventEmitter2 {
                     this._backToBack = true;
                 }
                 else {
+                    this.emit("message", "");
                     this._backToBack = false;
                 }
                 break;
