@@ -440,6 +440,14 @@ export class Game extends EventEmitter2 {
         return this._canvas;
     }
 
+    get lines() {
+        return this._lines;
+    }
+
+    get score() {
+        return this._score;
+    }
+
     _initCanvas() {
         // clear whole canvas
         this._bmp.fillRect(new Rectangle(0, 0, this.width, this.height), ERASE_COLOR);
