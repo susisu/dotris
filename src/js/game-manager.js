@@ -304,6 +304,7 @@ export class GameManager extends EventEmitter2 {
             this._game.quit();
             this._paused = false;
             this._over   = true;
+            this._wrapper.removeChild(this._game.canvas);
             this._game = null;
             this.emit("quit");
         }
