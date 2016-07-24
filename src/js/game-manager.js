@@ -258,63 +258,68 @@ export class GameManager extends EventEmitter2 {
     }
 
     pause() {
-        if (this._game) {
-            // pause
-        }
-    }
-
-    resume() {
-        if (this._game) {
-            // resume
+        if (this._game && !this._over) {
+            this._pauseCounter++;
+            this._game.pause();
+            this._paused = !this._paused;
+            this._updateVisibility();
         }
     }
 
     quit() {
         if (this._game) {
-            // quit
+            this._game.off("scoreUpdate", this._onGameScoreUpdate);
+            this._game.off("scoreUpdate", this._onGameMessage);
+            this._game.off("over", this._onGameOver);
+            window.removeEventListener("keydown", this._onKeyDown);
+            this._game.quit();
+            this._paused = false;
+            this._over   = true;
+            this._game = null;
+            this.emit("quit");
         }
     }
 
     _keyboardControl(keyCode) {
-        switch (keyCode) {
-        case KeyCode.MOVE_LEFT:
-            this._game.moveLeft();
-            break;
-        case KeyCode.MOVE_RIGHT:
-            this._game.moveRight();
-            break;
-        case KeyCode.SOFT_DROP:
-            this._game.softDrop();
-            break;
-        case KeyCode.HARD_DROP:
-            this._game.hardDrop();
-            break;
-        case KeyCode.ROTATE_CLOCKWISE:
-            this._game.rotateClockwise();
-            break;
-        case KeyCode.ROTATE_COUNTERCLOCKWISE:
-            this._game.rotateCounterclockwise();
-            break;
-        case KeyCode.HOLD:
-            this._game.hold();
-            break;
-        case KeyCode.PAUSE:
-            this._game.pause();
-            this._paused = !this._paused;
-            this._updateVisibility();
-            break;
-        case KeyCode.QUIT:
-            if (this._paused) {
-                // quit
+        if (this._game) {
+            switch (keyCode) {
+            case KeyCode.MOVE_LEFT:
+                this._game.moveLeft();
+                break;
+            case KeyCode.MOVE_RIGHT:
+                this._game.moveRight();
+                break;
+            case KeyCode.SOFT_DROP:
+                this._game.softDrop();
+                break;
+            case KeyCode.HARD_DROP:
+                this._game.hardDrop();
+                break;
+            case KeyCode.ROTATE_CLOCKWISE:
+                this._game.rotateClockwise();
+                break;
+            case KeyCode.ROTATE_COUNTERCLOCKWISE:
+                this._game.rotateCounterclockwise();
+                break;
+            case KeyCode.HOLD:
+                this._game.hold();
+                break;
+            case KeyCode.PAUSE:
+                this.pause();
+                break;
+            case KeyCode.QUIT:
+                if (this._paused) {
+                    this.quit();
+                }
+                break;
+            case KeyCode.TOGGLE_VIEW:
+                this._viewOpacityLevel = (this._viewOpacityLevel + 1) % 3;
+                this._updateViewOpacity();
+                break;
+            case KeyCode.TOGGLE_FULLSCREEN:
+                toggleFullscreen();
+                break;
             }
-            break;
-        case KeyCode.TOGGLE_VIEW:
-            this._viewOpacityLevel = (this._viewOpacityLevel + 1) % 3;
-            this._updateViewOpacity();
-            break;
-        case KeyCode.TOGGLE_FULLSCREEN:
-            toggleFullscreen();
-            break;
         }
     }
 }
