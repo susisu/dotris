@@ -78,10 +78,15 @@ export class GameManager extends EventEmitter2 {
 
         this._wrapper        = window.document.getElementById("game-wrapper");
         this._leftView       = window.document.getElementById("game-left-view");
+        this._holdWrapper    = window.document.getElementById("game-hold");
         this._rightView      = window.document.getElementById("game-right-view");
+        this._nextWrapper    = window.document.getElementById("game-next");
+        this._linesText      = window.document.getElementById("game-lines");
+        this._scoreText      = window.document.getElementById("game-score");
+        this._messageText    = window.document.getElementById("game-message");
         this._pausedView     = window.document.getElementById("game-paused-view");
         this._overView       = window.document.getElementById("game-over-view");
-        this._overResult     = window.document.getElementById("game-over-result");
+        this._overResultText = window.document.getElementById("game-over-result");
         this._overShare      = window.document.getElementById("game-over-share");
         this._overBackButton = window.document.getElementById("game-over-back-button");
 
@@ -110,10 +115,13 @@ export class GameManager extends EventEmitter2 {
 
         this._game = null;
 
-        this._onGameScoreUpdate = data => {
+        this._onGameScoreUpdate = () => {
+            this._linesText.innerText = `Lines: ${this._game.lines}`;
+            this._scoreText.innerText = `Score: ${this._game.score}`;
         };
 
         this._onGameMessage = message => {
+            this._messageText.innerText = message;
         };
 
         this._onGameOver = () => {
@@ -121,7 +129,7 @@ export class GameManager extends EventEmitter2 {
             let resultText = `Size: ${this._width} x ${this._height}, `
                 + `Lines: ${this._game.lines}, `
                 + `Score: ${this._game.score}`;
-            this._overResult.innerText = resultText;
+            this._overResultText.innerText = resultText;
             this._updateShareButtons(resultText + " - dotris");
             this._updateVisibility();
         };
@@ -274,12 +282,16 @@ export class GameManager extends EventEmitter2 {
             this._game.canvas.style.left = `${-this._game.leftOffset}px`;
             this._wrapper.appendChild(this._game.canvas);
 
+            this._linesText.innerText   = `Lines: ${this._game.lines}`;
+            this._scoreText.innerText   = `Score: ${this._game.score}`;
+            this._messageText.innerText = "";
+            
             this._paused = false;
             this._over   = false;
             this._updateVisibility();
 
             this._game.on("scoreUpdate", this._onGameScoreUpdate);
-            this._game.on("scoreUpdate", this._onGameMessage);
+            this._game.on("message", this._onGameMessage);
             this._game.on("over", this._onGameOver);
             window.addEventListener("keydown", this._onKeyDown);
             this._game.start();
@@ -298,7 +310,7 @@ export class GameManager extends EventEmitter2 {
     quit() {
         if (this._game) {
             this._game.off("scoreUpdate", this._onGameScoreUpdate);
-            this._game.off("scoreUpdate", this._onGameMessage);
+            this._game.off("message", this._onGameMessage);
             this._game.off("over", this._onGameOver);
             window.removeEventListener("keydown", this._onKeyDown);
             this._game.quit();
