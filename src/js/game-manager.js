@@ -80,9 +80,11 @@ export class GameManager extends EventEmitter2 {
         this._leftView   = window.document.getElementById("game-left-view");
         this._rightView  = window.document.getElementById("game-right-view");
         this._pausedView = window.document.getElementById("game-paused-view");
+        this._overView   = window.document.getElementById("game-over-view");
 
         this._visible = false;
         this._paused  = false;
+        this._over    = true;
         this._updateVisibility();
 
         this._enabled = false;
@@ -110,6 +112,8 @@ export class GameManager extends EventEmitter2 {
         this._onGameMessage = message => {
         };
         this._onGameOver = () => {
+            this._over = true;
+            this._updateVisibility();
         };
         this._onKeyDown = event => {
             if (this._enabled) {
@@ -167,17 +171,28 @@ export class GameManager extends EventEmitter2 {
 
     _updateVisibility() {
         if (this._visible) {
-            if (this._paused) {
-                this._wrapper.style.display    = "none";
-                this._leftView.style.display   = "none";
-                this._rightView.style.display  = "none";
-                this._pausedView.style.display = "block";
-            }
-            else {
+            if (this._over) {
                 this._wrapper.style.display    = "block";
                 this._leftView.style.display   = "block";
                 this._rightView.style.display  = "block";
                 this._pausedView.style.display = "none";
+                this._overView.style.display   = "block";
+            }
+            else {
+                if (this._paused) {
+                    this._wrapper.style.display    = "none";
+                    this._leftView.style.display   = "none";
+                    this._rightView.style.display  = "none";
+                    this._pausedView.style.display = "block";
+                    this._overView.style.display   = "none";
+                }
+                else {
+                    this._wrapper.style.display    = "block";
+                    this._leftView.style.display   = "block";
+                    this._rightView.style.display  = "block";
+                    this._pausedView.style.display = "none";
+                    this._overView.style.display   = "none";
+                }
             }
         }
         else {
@@ -185,6 +200,7 @@ export class GameManager extends EventEmitter2 {
             this._leftView.style.display   = "none";
             this._rightView.style.display  = "none";
             this._pausedView.style.display = "none";
+            this._overView.style.display   = "none";
         }
     }
 
@@ -230,6 +246,7 @@ export class GameManager extends EventEmitter2 {
             this._wrapper.appendChild(this._game.canvas);
 
             this._paused = false;
+            this._over   = false;
             this._updateVisibility();
 
             this._game.on("scoreUpdate", this._onGameScoreUpdate);
