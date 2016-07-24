@@ -450,38 +450,6 @@ export class Game extends EventEmitter2 {
         this._bmp.fillRect(new Rectangle(this._width - 1,                0,           1, this._height), BORDER_COLOR);
     }
 
-    _debugDrawArea() {
-        const AREA_COLOR    = new Color(255, 0, 0, 255);
-        const PADDING_COLOR = new Color(0, 0, 255, 255);
-        const EDGE_COLOR    = new Color(255, 255, 0, 255);
-
-        this._bmp.fillRect(
-            new Rectangle(BORDER_THICKNESS, BORDER_THICKNESS + TOP_PADDING, this._innerWidth, this._innerHeight),
-            AREA_COLOR
-        );
-        this._bmp.fillRect(
-            new Rectangle(BORDER_THICKNESS, BORDER_THICKNESS, this._innerWidth, TOP_PADDING),
-            PADDING_COLOR
-        );
-
-        this._bmp.fillRect(
-            new Rectangle(BORDER_THICKNESS, BORDER_THICKNESS + TOP_PADDING, this._innerWidth, 1),
-            EDGE_COLOR
-        );
-        this._bmp.fillRect(
-            new Rectangle(BORDER_THICKNESS, this._height - 1 - BORDER_THICKNESS, this._innerWidth, 1),
-            EDGE_COLOR
-        );
-        this._bmp.fillRect(
-            new Rectangle(BORDER_THICKNESS, BORDER_THICKNESS + TOP_PADDING, 1, this._innerHeight),
-            EDGE_COLOR
-        );
-        this._bmp.fillRect(
-            new Rectangle(this._width - 1 - BORDER_THICKNESS, BORDER_THICKNESS + TOP_PADDING, 1, this._innerHeight),
-            EDGE_COLOR
-        );
-    }
-
     _drawBlock(position, color) {
         if (this._block !== null) {
             for (let j = 0; j < this._blockWidth; j++) {
