@@ -31,7 +31,7 @@ function main() {
             width      : config.width,
             height     : config.height,
             colorScheme: config.colorScheme,
-            autoPlay   : config.autoPlay
+            autoMode   : config.autoMode
         });
     }
 

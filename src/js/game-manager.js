@@ -131,7 +131,8 @@ export class GameManager extends EventEmitter2 {
             this._over = true;
             let resultText = `Size: ${this._width} x ${this._height}, `
                 + `Lines: ${this._game.lines}, `
-                + `Score: ${this._game.score}`;
+                + `Score: ${this._game.score}`
+                + (this._game.autoMode ? " (auto)" : "");
             this._overResultText.innerText = resultText;
             this._updateShareButtons(resultText + " - dotris");
             this._updateVisibility();
@@ -281,7 +282,8 @@ export class GameManager extends EventEmitter2 {
                 innerWidth   : this._width,
                 innerHeight  : this._height,
                 colors       : colors,
-                numNextBlocks: NUM_NEXT_BLOCKS
+                numNextBlocks: NUM_NEXT_BLOCKS,
+                autoMode     : config.autoMode
             });
 
             this._game.canvas.className  = "game-canvas";

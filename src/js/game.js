@@ -432,6 +432,7 @@ export class Game extends EventEmitter2 {
         this._innerHeight   = config.innerHeight;
         this._colors        = config.colors;
         this._numNextBlocks = config.numNextBlocks;
+        this._autoMode      = config.autoMode;
 
         this._fieldWidth  = this._innerWidth;
         this._fieldHeight = this._innerHeight + TOP_PADDING;
@@ -457,7 +458,7 @@ export class Game extends EventEmitter2 {
         this._over   = false;
         this._lines  = 0;
         this._score  = 0;
-        this._clock  = new Clock(1.0);
+        this._clock  = new Clock(this._autoMode ? 30.0 : 1.0);
         this._paused = true;
 
         this._block               = null;
@@ -483,7 +484,12 @@ export class Game extends EventEmitter2 {
 
         this._spawNewBlock();
         this._clock.on("clock", () => {
-            this._clockDrop();
+            if (this._autoMode) {
+                this._hardDrop();
+            }
+            else {
+                this._clockDrop();
+            }
         });
     }
 
@@ -529,6 +535,18 @@ export class Game extends EventEmitter2 {
 
     get holdCanvas() {
         return this._holdCanvas;
+    }
+
+    get autoMode() {
+        return this._autoMode;
+    }
+
+    get paused() {
+        return this._paused;
+    }
+
+    get over() {
+        return this._over;
     }
 
     get lines() {
@@ -739,10 +757,19 @@ export class Game extends EventEmitter2 {
         this._blockWidth          = this._block[0].length;
         this._blockHeight         = this._block.length;
         this._blockRotationDegree = 0;
-        this._blockPosition       = new Point(
-            BORDER_THICKNESS + Math.floor((this.width - BORDER_THICKNESS * 2 - this._blockWidth) / 2),
-            BORDER_THICKNESS + TOP_PADDING + BlockInitYOffset[blockType]
-        );
+        if (this._autoMode) {
+            let rect = getClippedBlockRect(this._block);
+            this._blockPosition = new Point(
+                BORDER_THICKNESS + Math.floor(Math.random() * (this._fieldWidth - rect.width)),
+                BORDER_THICKNESS + TOP_PADDING + BlockInitYOffset[blockType]
+            );
+        }
+        else {
+            this._blockPosition = new Point(
+                BORDER_THICKNESS + Math.floor((this._fieldWidth - this._blockWidth) / 2),
+                BORDER_THICKNESS + TOP_PADDING + BlockInitYOffset[blockType]
+            );
+        }
     }
 
     _spawNewBlock() {
@@ -1028,43 +1055,43 @@ export class Game extends EventEmitter2 {
     }
 
     moveLeft() {
-        if (!this._over && !this._paused) {
+        if (!this._over && !this._paused && !this._autoMode) {
             this._moveBlock(MoveVector.LEFT);
         }
     }
 
     moveRight() {
-        if (!this._over && !this._paused) {
+        if (!this._over && !this._paused && !this._autoMode) {
             this._moveBlock(MoveVector.RIGHT);
         }
     }
 
     softDrop() {
-        if (!this._over && !this._paused) {
+        if (!this._over && !this._paused && !this._autoMode) {
             this._moveBlock(MoveVector.DOWN);
         }
     }
 
     hardDrop() {
-        if (!this._over && !this._paused) {
+        if (!this._over && !this._paused && !this._autoMode) {
             this._hardDrop();
         }
     }
 
     rotateClockwise() {
-        if (!this._over && !this._paused) {
+        if (!this._over && !this._paused && !this._autoMode) {
             this._rotateBlock(BlockRotationDirection.CLOCKWISE);
         }
     }
 
     rotateCounterclockwise() {
-        if (!this._over && !this._paused) {
+        if (!this._over && !this._paused && !this._autoMode) {
             this._rotateBlock(BlockRotationDirection.COUNTERCLOCKWISE);
         }
     }
 
     hold() {
-        if (!this._over && !this._paused) {
+        if (!this._over && !this._paused && !this._autoMode) {
             this._hold();
         }
     }

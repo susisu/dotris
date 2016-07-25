@@ -30,7 +30,7 @@ export class TitleManager extends EventEmitter2 {
         this._configForm       = window.document.getElementById("config-form");
         this._maximizeButton   = window.document.getElementById("maximize-button");
         this._playButton       = window.document.getElementById("play-button");
-        this._autoPlayButton   = window.document.getElementById("auto-play-button");
+        this._autoModeButton   = window.document.getElementById("auto-mode-button");
         this._fullscreenButton = window.document.getElementById("fullscreen-button");
 
         this._updateGameSizeConfig(true);
@@ -56,7 +56,7 @@ export class TitleManager extends EventEmitter2 {
             }
         });
 
-        this._autoPlayButton.addEventListener("click", () => {
+        this._autoModeButton.addEventListener("click", () => {
             if (this._enabled) {
                 this._playGame(true);
             }
@@ -85,7 +85,7 @@ export class TitleManager extends EventEmitter2 {
         this._configForm["height"].max = `${this._gameMaxHeight}`;
     }
 
-    _playGame(autoPlay) {
+    _playGame(autoMode) {
         let width = forceInRange(
             parseInt(this._configForm["width"].value) || 0,
             this._gameMinWidth, this._gameMaxWidth
@@ -102,7 +102,7 @@ export class TitleManager extends EventEmitter2 {
             scaling       : this._configForm["scaling"].checked,
             highResolution: this._configForm["high-resolution"].checked,
             colorScheme   : this._configForm["color-scheme"].value,
-            autoPlay      : autoPlay
+            autoMode      : autoMode
         };
         this.emit("play", config);
     }
