@@ -305,6 +305,12 @@ const MovementType = Object.freeze({
     ROTATE: "rotate"
 });
 
+const MoveVector = Object.freeze({
+    LEFT : new Point(-1, 0),
+    RIGHT: new Point(1, 0),
+    DOWN : new Point(0, 1)
+});
+
 function deepCopyArray(arr) {
     let copy = [];
     for (let [i, e] of arr.entries()) {
@@ -400,7 +406,7 @@ export class Game extends EventEmitter2 {
 
         this._spawNewBlock();
         this._clock.on("clock", () => {
-            this.softDrop();
+            this._clockDrop();
         });
     }
 
@@ -668,7 +674,9 @@ export class Game extends EventEmitter2 {
             if (wouldLand || this._willLand()) {
                 this._clock.reset();
             }
-            this._updateGhostPosition();
+            if (vector.x !== 0) {
+                this._updateGhostPosition();
+            }
             this._drawBlockGhost();
         }
     }
@@ -710,14 +718,14 @@ export class Game extends EventEmitter2 {
         }
     }
 
-    _softDrop() {
+    _clockDrop() {
         this._eraseBlockGhost();
         if (this._willLand()) {
             this._landBlock();
         }
         else {
             let oldPosition     = this._blockPosition;
-            this._blockPosition = Point.add(this._blockPosition, new Point(0, 1));
+            this._blockPosition = Point.add(this._blockPosition, MoveVector.DOWN);
             if (this._blockHitTest()) {
                 // won't come here
                 this._blockPosition = oldPosition;
@@ -879,19 +887,19 @@ export class Game extends EventEmitter2 {
 
     moveLeft() {
         if (!this._over && !this._paused) {
-            this._moveBlock(new Point(-1, 0));
+            this._moveBlock(MoveVector.LEFT);
         }
     }
 
     moveRight() {
         if (!this._over && !this._paused) {
-            this._moveBlock(new Point(1, 0));
+            this._moveBlock(MoveVector.RIGHT);
         }
     }
 
     softDrop() {
         if (!this._over && !this._paused) {
-            this._softDrop();
+            this._moveBlock(MoveVector.DOWN);
         }
     }
 
