@@ -22,9 +22,9 @@ export class TitleManager extends EventEmitter2 {
     constructor() {
         super();
 
-        this._wrapper = window.document.getElementById("title");
+        this._titleScreen = window.document.getElementById("title-screen");
 
-        this._wrapper.style.display = "none";
+        this._titleScreen.style.display = "none";
         this._enabled = false;
 
         this._configForm       = window.document.getElementById("config-form");
@@ -108,12 +108,12 @@ export class TitleManager extends EventEmitter2 {
     }
 
     show() {
-        this._wrapper.style.display = "block";
+        this._titleScreen.style.display = "block";
         this._enabled = true;
     }
 
     hide() {
-        this._wrapper.style.display = "none";
+        this._titleScreen.style.display = "none";
         this._enabled = false;
     }
 }

@@ -87,8 +87,8 @@ export class GameManager extends EventEmitter2 {
         this._linesText      = window.document.getElementById("game-lines");
         this._scoreText      = window.document.getElementById("game-score");
         this._messageText    = window.document.getElementById("game-message");
-        this._pausedView     = window.document.getElementById("game-paused-view");
-        this._overView       = window.document.getElementById("game-over-view");
+        this._pausedScreen   = window.document.getElementById("game-paused-screen");
+        this._overScreen     = window.document.getElementById("game-over-screen");
         this._overResultText = window.document.getElementById("game-over-result");
         this._overShare      = window.document.getElementById("game-over-share");
         this._overBackButton = window.document.getElementById("game-over-back-button");
@@ -135,7 +135,7 @@ export class GameManager extends EventEmitter2 {
             this._overResultText.innerText = resultText;
             this._updateShareButtons(resultText + " - dotris");
             this._updateVisibility();
-            this._overView.style.opacity = "1";
+            this._overScreen.style.opacity = "1";
         };
 
         this._onKeyDown = event => {
@@ -201,42 +201,42 @@ export class GameManager extends EventEmitter2 {
     _updateVisibility() {
         if (this._visible) {
             if (this._over) {
-                this._wrapper.style.display    = "block";
-                this._leftView.style.display   = "block";
-                this._rightView.style.display  = "block";
-                this._pausedView.style.display = "none";
-                this._overView.style.display   = "block";
+                this._wrapper.style.display      = "block";
+                this._leftView.style.display     = "block";
+                this._rightView.style.display    = "block";
+                this._pausedScreen.style.display = "none";
+                this._overScreen.style.display   = "block";
             }
             else {
                 if (this._paused) {
-                    this._wrapper.style.display    = "none";
-                    this._leftView.style.display   = "none";
-                    this._rightView.style.display  = "none";
-                    this._pausedView.style.display = "block";
-                    this._overView.style.display   = "none";
+                    this._wrapper.style.display      = "none";
+                    this._leftView.style.display     = "none";
+                    this._rightView.style.display    = "none";
+                    this._pausedScreen.style.display = "block";
+                    this._overScreen.style.display   = "none";
                 }
                 else {
-                    this._wrapper.style.display    = "block";
-                    this._leftView.style.display   = "block";
-                    this._rightView.style.display  = "block";
-                    this._pausedView.style.display = "none";
-                    this._overView.style.display   = "none";
+                    this._wrapper.style.display      = "block";
+                    this._leftView.style.display     = "block";
+                    this._rightView.style.display    = "block";
+                    this._pausedScreen.style.display = "none";
+                    this._overScreen.style.display   = "none";
                 }
             }
         }
         else {
-            this._wrapper.style.display    = "none";
-            this._leftView.style.display   = "none";
-            this._rightView.style.display  = "none";
-            this._pausedView.style.display = "none";
-            this._overView.style.display   = "none";
+            this._wrapper.style.display      = "none";
+            this._leftView.style.display     = "none";
+            this._rightView.style.display    = "none";
+            this._pausedScreen.style.display = "none";
+            this._overScreen.style.display   = "none";
         }
     }
 
     _updateViewOpacity() {
-        this._leftView.style.opacity  = `${this._viewOpacityLevel * 0.5}`;
-        this._rightView.style.opacity = `${this._viewOpacityLevel * 0.5}`;
-        this._overView.style.opacity  = `${this._viewOpacityLevel * 0.5}`;
+        this._leftView.style.opacity   = `${this._viewOpacityLevel * 0.5}`;
+        this._rightView.style.opacity  = `${this._viewOpacityLevel * 0.5}`;
+        this._overScreen.style.opacity = `${this._viewOpacityLevel * 0.5}`;
     }
 
     _updateShareButtons(message) {

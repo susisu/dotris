@@ -10,7 +10,7 @@ html, body {
     color           : #F0F0F0;
 }
 
-#title {
+#title-screen {
     display         : none;
     width           : 480px;
     height          : 480px;
@@ -30,23 +30,23 @@ html, body {
     overflow        : hidden;
 }
 
-#title a {
+#title-screen a {
     color: #F0F0F0;
 }
 
-#title header {
+#title-screen header {
     position: absolute;
     width   : 480px;
     height  : 120px;
     top     : 0px;
 }
 
-#title header h1 {
+#title-screen header h1 {
     margin : 0px;
     padding: 0px;
 }
 
-#title header .logo-image {
+#title-screen header .logo-image {
     image-rendering       : pixelated;
     image-rendering       : -moz-crisp-edges;
     image-rendering       : -webkit-crisp-edges;
@@ -54,14 +54,14 @@ html, body {
     -ms-interpolation-mode: nearest-neighbor;
 }
 
-#title footer {
+#title-screen footer {
     position : absolute;
     width    : 480px;
     height   : 40px;
     bottom   : 0px;
 }
 
-#title footer p {
+#title-screen footer p {
     margin     : 0px;
     padding    : 0px;
     line-height: 40px;
@@ -194,7 +194,7 @@ html, body {
     -ms-interpolation-mode: nearest-neighbor;
 }
 
-#game-paused-view {
+#game-paused-screen {
     display         : none;
     width           : 480px;
     height          : 80px;
@@ -215,13 +215,13 @@ html, body {
     overflow        : hidden;
 }
 
-#game-paused-view p {
+#game-paused-screen p {
     margin     : 0px;
     padding    : 0px;
     line-height: 40px;
 }
 
-#game-over-view {
+#game-over-screen {
     display         : none;
     width           : 480px;
     height          : 160px;
@@ -242,7 +242,7 @@ html, body {
     overflow        : hidden;
 }
 
-#game-over-view p {
+#game-over-screen p {
     margin     : 0px;
     padding    : 0px;
     line-height: 40px;
