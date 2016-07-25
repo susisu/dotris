@@ -67,14 +67,14 @@ html, body {
     line-height: 40px;
 }
 
-#config-form {
+#title-config-form {
     margin-top: 120px;
     padding   : 0px 10px;
     width     : 460px;
     height    : 320px;
 }
 
-#config-form fieldset {
+#title-config-form fieldset {
     margin-top   : 16px;
     margin-bottom: 16px;
     border       : 1px solid #808080;

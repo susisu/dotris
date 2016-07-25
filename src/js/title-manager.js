@@ -27,11 +27,11 @@ export class TitleManager extends EventEmitter2 {
         this._titleScreen.style.display = "none";
         this._enabled = false;
 
-        this._configForm       = window.document.getElementById("config-form");
-        this._maximizeButton   = window.document.getElementById("maximize-button");
-        this._playButton       = window.document.getElementById("play-button");
-        this._autoModeButton   = window.document.getElementById("auto-mode-button");
-        this._fullscreenButton = window.document.getElementById("fullscreen-button");
+        this._configForm       = window.document.getElementById("title-config-form");
+        this._maximizeButton   = window.document.getElementById("title-maximize-button");
+        this._playButton       = window.document.getElementById("title-play-button");
+        this._autoModeButton   = window.document.getElementById("title-auto-mode-button");
+        this._fullscreenButton = window.document.getElementById("title-fullscreen-button");
 
         this._updateGameSizeConfig(true);
 
