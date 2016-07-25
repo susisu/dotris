@@ -28,6 +28,7 @@
     "browser-sync": "^2.13.0",
     "bs-fullscreen-message": "^1.1.0",
     "eventemitter2": "^2.0.0",
+    "json-loader": "^0.5.4",
     "strip-ansi": "^3.0.1",
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1"
