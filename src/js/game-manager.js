@@ -135,6 +135,7 @@ export class GameManager extends EventEmitter2 {
             this._overResultText.innerText = resultText;
             this._updateShareButtons(resultText + " - dotris");
             this._updateVisibility();
+            this._overView.style.opacity = "1";
         };
 
         this._onKeyDown = event => {
@@ -235,6 +236,7 @@ export class GameManager extends EventEmitter2 {
     _updateViewOpacity() {
         this._leftView.style.opacity  = `${this._viewOpacityLevel * 0.5}`;
         this._rightView.style.opacity = `${this._viewOpacityLevel * 0.5}`;
+        this._overView.style.opacity  = `${this._viewOpacityLevel * 0.5}`;
     }
 
     _updateShareButtons(message) {
