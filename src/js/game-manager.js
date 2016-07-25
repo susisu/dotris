@@ -75,6 +75,35 @@ const KeyCode = Object.freeze({
 const NUM_NEXT_BLOCKS  = 5;
 const VIEW_BLOCKS_SIZE = 8;
 
+const RANDOM_PAUSED_TEXTS = [
+    "Game paused",
+    "Hello",
+    "Go ahead",
+    "Try again",
+    "Away from keyboard",
+    "Wait a minute",
+    "You reached the limit",
+    "Gimme your voice",
+    "Eat avocados",
+    "Complex scalar field",
+    "Many a little makes a mickle",
+    "Stop right now",
+    "Looks glitched to me"
+];
+
+function getPausedText(counter) {
+    switch (counter) {
+    case 0:
+    case 1:
+    case 2:
+        return "Game paused";
+    case 3:
+        return "Game paused?";
+    default:
+        return RANDOM_PAUSED_TEXTS[Math.floor(Math.random() * RANDOM_PAUSED_TEXTS.length)];
+    }
+}
+
 export class GameManager extends EventEmitter2 {
     constructor() {
         super();
@@ -88,6 +117,7 @@ export class GameManager extends EventEmitter2 {
         this._scoreText      = window.document.getElementById("game-score");
         this._messageText    = window.document.getElementById("game-message");
         this._pausedScreen   = window.document.getElementById("game-paused-screen");
+        this._pausedText     = window.document.getElementById("game-paused-text");
         this._overScreen     = window.document.getElementById("game-over-screen");
         this._overResultText = window.document.getElementById("game-over-result");
         this._overShare      = window.document.getElementById("game-over-share");
@@ -151,6 +181,8 @@ export class GameManager extends EventEmitter2 {
                 this.quit();
             }
         });
+
+        this._pauseCounter = 0;
     }
 
     get scaling() {
@@ -309,6 +341,9 @@ export class GameManager extends EventEmitter2 {
             this._over   = false;
             this._updateVisibility();
 
+            this._pauseCounter = 0;
+            this._pausedText.innerText = getPausedText(this._pauseCounter);
+
             this._game.on("scoreUpdate", this._onGameScoreUpdate);
             this._game.on("message", this._onGameMessage);
             this._game.on("over", this._onGameOver);
@@ -319,9 +354,12 @@ export class GameManager extends EventEmitter2 {
 
     pause() {
         if (this._game && !this._over) {
-            this._pauseCounter++;
             this._game.pause();
             this._paused = !this._paused;
+            if (this._paused) {
+                this._pauseCounter++;
+                this._pausedText.innerText = getPausedText(this._pauseCounter);
+            }
             this._updateVisibility();
         }
     }
