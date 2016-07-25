@@ -86,15 +86,19 @@ export class TitleManager extends EventEmitter2 {
     }
 
     _playGame(autoPlay) {
+        let width = forceInRange(
+            parseInt(this._configForm["width"].value) || 0,
+            this._gameMinWidth, this._gameMaxWidth
+        );
+        let height = forceInRange(
+            parseInt(this._configForm["height"].value) || 0,
+            this._gameMinHeight, this._gameMaxHeight
+        );
+        this._configForm["width"].value  = width.toString();
+        this._configForm["height"].value = height.toString();
         let config = {
-            width: forceInRange(
-                parseInt(this._configForm["width"].value) || 0,
-                this._gameMinWidth, this._gameMaxWidth
-            ),
-            height: forceInRange(
-                parseInt(this._configForm["height"].value) || 0,
-                this._gameMinHeight, this._gameMaxHeight
-            ),
+            width         : width,
+            height        : height,
             scaling       : this._configForm["scaling"].checked,
             highResolution: this._configForm["high-resolution"].checked,
             colorScheme   : this._configForm["color-scheme"].value,
