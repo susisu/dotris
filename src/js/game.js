@@ -97,6 +97,9 @@ const Block = (() => {
     });
 })();
 
+const ASIDE_BLOCK_WIDTH  = 6;
+const ASIDE_BLOCK_HEIGHT = 6;
+
 const BlockInitYOffset = Object.freeze({
     [BlockType.I]: -2,
     [BlockType.O]: -2,
@@ -360,12 +363,75 @@ function rotateMatrix(mat, direction) {
     return copy;
 }
 
+function getClippedBlockRect(block) {
+    let width  = block[0].length;
+    let height = block.length;
+    let left   = 0;
+    let right  = width - 1;
+    let top    = 0;
+    let bottom = height - 1;
+    for (let j = 0; j < width; j++) {
+        let blockExists = false;
+        for (let i = 0; i < height; i++) {
+            if (block[i][j] & BLOCK_EXISTS !== 0) {
+                blockExists = true;
+                break;
+            }
+        }
+        if (blockExists) {
+            left = j;
+            break;
+        }
+    }
+    for (let j = width - 1; j >= 0; j--) {
+        let blockExists = false;
+        for (let i = 0; i < height; i++) {
+            if (block[i][j] & BLOCK_EXISTS !== 0) {
+                blockExists = true;
+                break;
+            }
+        }
+        if (blockExists) {
+            right = j;
+            break;
+        }
+    }
+    for (let i = 0; i < height; i++) {
+        let blockExists = false;
+        for (let j = 0; j < height; j++) {
+            if (block[i][j] & BLOCK_EXISTS !== 0) {
+                blockExists = true;
+                break;
+            }
+        }
+        if (blockExists) {
+            top = i;
+            break;
+        }
+    }
+    for (let i = height - 1; i >= 0; i--) {
+        let blockExists = false;
+        for (let j = 0; j < height; j++) {
+            if (block[i][j] & BLOCK_EXISTS !== 0) {
+                blockExists = true;
+                break;
+            }
+        }
+        if (blockExists) {
+            bottom = i;
+            break;
+        }
+    }
+    return new Rectangle(left, top, right - left + 1, bottom - top + 1);
+}
+
 export class Game extends EventEmitter2 {
     constructor(config) {
         super();
-        this._innerWidth  = config.innerWidth;
-        this._innerHeight = config.innerHeight;
-        this._colors      = config.colors;
+        this._innerWidth    = config.innerWidth;
+        this._innerHeight   = config.innerHeight;
+        this._colors        = config.colors;
+        this._numNextBlocks = config.numNextBlocks;
 
         this._fieldWidth  = this._innerWidth;
         this._fieldHeight = this._innerHeight + TOP_PADDING;
@@ -375,9 +441,18 @@ export class Game extends EventEmitter2 {
         this._canvas = window.document.createElement("canvas");
         this._canvas.width  = this._width;
         this._canvas.height = this._height;
-
         this._bmp = new Bitmap(this._canvas);
         this._initCanvas();
+
+        this._nextCanvas = window.document.createElement("canvas");
+        this._nextCanvas.width  = ASIDE_BLOCK_WIDTH;
+        this._nextCanvas.height = ASIDE_BLOCK_HEIGHT * this._numNextBlocks;
+        this._nextBmp = new Bitmap(this._nextCanvas);
+
+        this._holdCanvas = window.document.createElement("canvas");
+        this._holdCanvas.width  = ASIDE_BLOCK_WIDTH;
+        this._holdCanvas.height = ASIDE_BLOCK_HEIGHT;
+        this._holdBmp = new Bitmap(this._holdCanvas);
 
         this._over   = false;
         this._lines  = 0;
@@ -396,9 +471,11 @@ export class Game extends EventEmitter2 {
         this._nextBlockTypes = [];
         this._addNextBlockTypeSequence();
         this._addNextBlockTypeSequence();
+        this._redrawNextBlocks();
 
         this._holdable        = true;
         this._holdedBlockType = undefined;
+        this._redrawHoldedBlock();
 
         this._lineCounter  = new Array(this._fieldHeight).fill(0);
         this._lastMovement = undefined;
@@ -446,6 +523,14 @@ export class Game extends EventEmitter2 {
         return this._canvas;
     }
 
+    get nextCanvas() {
+        return this._nextCanvas;
+    }
+
+    get holdCanvas() {
+        return this._holdCanvas;
+    }
+
     get lines() {
         return this._lines;
     }
@@ -484,6 +569,50 @@ export class Game extends EventEmitter2 {
     _eraseBlockGhost() {
         this._drawBlock(this._blockPosition, ERASE_COLOR);
         this._drawBlock(this._ghostPosition, ERASE_COLOR);
+    }
+
+    _redrawNextBlocks() {
+        this._nextBmp.fillRect(
+            new Rectangle(0, 0, ASIDE_BLOCK_WIDTH, ASIDE_BLOCK_HEIGHT * this._numNextBlocks),
+            ERASE_COLOR
+        );
+        for (let n = 0; n < this._numNextBlocks; n++) {
+            let blockType = this._nextBlockTypes[n];
+            let block     = Block[blockType];
+            let rect      = getClippedBlockRect(block);
+            let position  = new Point(
+                Math.floor((ASIDE_BLOCK_WIDTH - rect.width) / 2),
+                Math.floor((ASIDE_BLOCK_HEIGHT - rect.height) / 2) + ASIDE_BLOCK_HEIGHT * n
+            );
+            let color = this._colors[BlockColorPrefix.BLOCK + blockType];
+            for (let j = rect.x; j < rect.x + rect.width; j++) {
+                for (let i = rect.y; i < rect.y + rect.height; i++) {
+                    if (block[i][j] & BLOCK_EXISTS !== 0) {
+                        this._nextBmp.setPixel(Point.add(position, new Point(j - rect.x, i - rect.y)), color);
+                    }
+                }
+            }
+        }
+    }
+
+    _redrawHoldedBlock() {
+        this._holdBmp.fillRect(new Rectangle(0, 0, ASIDE_BLOCK_WIDTH, ASIDE_BLOCK_HEIGHT), ERASE_COLOR);
+        if (this._holdedBlockType !== undefined) {
+            let block    = Block[this._holdedBlockType];
+            let rect     = getClippedBlockRect(block);
+            let position = new Point(
+                Math.floor((ASIDE_BLOCK_WIDTH - rect.width) / 2),
+                Math.floor((ASIDE_BLOCK_HEIGHT - rect.height) / 2)
+            );
+            let color = this._colors[BlockColorPrefix.BLOCK + this._holdedBlockType];
+            for (let j = rect.x; j < rect.x + rect.width; j++) {
+                for (let i = rect.y; i < rect.y + rect.height; i++) {
+                    if (block[i][j] & BLOCK_EXISTS !== 0) {
+                        this._holdBmp.setPixel(Point.add(position, new Point(j - rect.x, i - rect.y)), color);
+                    }
+                }
+            }
+        }
     }
 
     _blockHitTest() {
@@ -600,6 +729,7 @@ export class Game extends EventEmitter2 {
         if (this._nextBlockTypes.length <= BLOCK_TYPES.length) {
             this._addNextBlockTypeSequence();
         }
+        this._redrawNextBlocks();
         return blockType;
     }
 
@@ -645,6 +775,7 @@ export class Game extends EventEmitter2 {
                 this._holdedBlockType = this._blockType;
                 this._setCurrentBlock(blockType);
             }
+            this._redrawHoldedBlock();
 
             this._holdable     = false;
             this._lastMovement = MovementType.SPAWN;

@@ -72,6 +72,9 @@ const KeyCode = Object.freeze({
     TOGGLE_FULLSCREEN      : 70  // f
 });
 
+const NUM_NEXT_BLOCKS  = 5;
+const VIEW_BLOCKS_SIZE = 8;
+
 export class GameManager extends EventEmitter2 {
     constructor() {
         super();
@@ -273,14 +276,26 @@ export class GameManager extends EventEmitter2 {
             this._rescale(false);
 
             this._game = new Game({
-                innerWidth : this._width,
-                innerHeight: this._height,
-                colors     : colors
+                innerWidth   : this._width,
+                innerHeight  : this._height,
+                colors       : colors,
+                numNextBlocks: NUM_NEXT_BLOCKS
             });
+
             this._game.canvas.className  = "game-canvas";
             this._game.canvas.style.top  = `${-this._game.topOffset}px`;
             this._game.canvas.style.left = `${-this._game.leftOffset}px`;
             this._wrapper.appendChild(this._game.canvas);
+
+            this._game.nextCanvas.style.width  = `${this._game.nextCanvas.width * VIEW_BLOCKS_SIZE}px`;
+            this._game.nextCanvas.style.height = `${this._game.nextCanvas.height * VIEW_BLOCKS_SIZE}px`;
+            this._game.nextCanvas.style.backgroundColor = colors.background.toCSSColor();
+            this._nextWrapper.appendChild(this._game.nextCanvas);
+
+            this._game.holdCanvas.style.width  = `${this._game.holdCanvas.width * VIEW_BLOCKS_SIZE}px`;
+            this._game.holdCanvas.style.height = `${this._game.holdCanvas.height * VIEW_BLOCKS_SIZE}px`;
+            this._game.holdCanvas.style.backgroundColor = colors.background.toCSSColor();
+            this._holdWrapper.appendChild(this._game.holdCanvas);
 
             this._linesText.innerText   = `Lines: ${this._game.lines}`;
             this._scoreText.innerText   = `Score: ${this._game.score}`;
@@ -317,6 +332,8 @@ export class GameManager extends EventEmitter2 {
             this._paused = false;
             this._over   = true;
             this._wrapper.removeChild(this._game.canvas);
+            this._nextWrapper.removeChild(this._game.nextCanvas);
+            this._holdWrapper.removeChild(this._game.holdCanvas);
             this._game = null;
             this.emit("quit");
         }
