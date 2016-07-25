@@ -595,8 +595,8 @@ export class Game extends EventEmitter2 {
         this._nextBlockTypes = this._nextBlockTypes.concat(shuffleArray(BLOCK_TYPES.slice()));
     }
 
-    _popNextBlockType() {
-        let blockType = this._nextBlockTypes.pop();
+    _shiftNextBlockType() {
+        let blockType = this._nextBlockTypes.shift();
         if (this._nextBlockTypes.length <= BLOCK_TYPES.length) {
             this._addNextBlockTypeSequence();
         }
@@ -617,7 +617,7 @@ export class Game extends EventEmitter2 {
 
     _spawNewBlock() {
         if (this._block === null) {
-            this._setCurrentBlock(this._popNextBlockType());
+            this._setCurrentBlock(this._shiftNextBlockType());
 
             this._holdable     = true;
             this._lastMovement = MovementType.SPAWN;
@@ -638,7 +638,7 @@ export class Game extends EventEmitter2 {
             this._eraseBlockGhost();
             if (this._holdedBlockType === undefined) {
                 this._holdedBlockType = this._blockType;
-                this._setCurrentBlock(this._popNextBlockType());
+                this._setCurrentBlock(this._shiftNextBlockType());
             }
             else {
                 let blockType         = this._holdedBlockType;
