@@ -6,8 +6,8 @@ html, body {
     overflow        : hidden;
     padding         : 0;
     margin          : 0;
-    background-color: #404040;
-    color           : #F0F0F0;
+    background-color: #F0F0F0;
+    color           : #404040;
 }
 
 #title-screen {
@@ -137,6 +137,7 @@ html, body {
 
 #game-left-view .section {
     background-color: #404040;
+    color           : #F0F0F0;
     box-shadow      : 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
     padding         : 10px;
     border-radius   : 0px 10px 10px 0px;
@@ -163,6 +164,7 @@ html, body {
 
 #game-right-view .section {
     background-color: #404040;
+    color           : #F0F0F0;
     box-shadow      : 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
     padding         : 10px;
     border-radius   : 10px 0px 0px 10px;
