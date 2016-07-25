@@ -162,7 +162,7 @@ export class GameManager extends EventEmitter2 {
             let resultText = `Size: ${this._width} x ${this._height}, `
                 + `Lines: ${this._game.lines}, `
                 + `Score: ${this._game.score}`
-                + (this._game.autoMode ? " (auto)" : "");
+                + (this._game.autoMode ? " (auto mode)" : "");
             this._overResultText.innerText = resultText;
             this._updateShareButtons(resultText + " - dotris");
             this._updateVisibility();
