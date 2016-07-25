@@ -924,7 +924,7 @@ export class Game extends EventEmitter2 {
             }
         }
         if (deleteCounter > 0) {
-            let score = deleteCounter * deleteCounter * this._fieldWidth;
+            let score = deleteCounter * deleteCounter * this._fieldWidth * 10;
             if (this._backToBack) {
                 score *= 1.1;
             }
@@ -975,7 +975,18 @@ export class Game extends EventEmitter2 {
                 break;
             }
             this._lines += deleteCounter;
-            this._score += Math.floor(score * 10);
+            this._score += Math.floor(score);
+            let perfect = true;
+            for (let i = 0; i < this._fieldHeight; i++) {
+                if (this._lineCounter[i] > 0) {
+                    perfect = false;
+                    break;
+                }
+            }
+            if (perfect) {
+                this._score += this._fieldWidth * this._fieldWidth * 100;
+                this.emit("message", "Perfect Clear");
+            }
             this.emit("scoreUpdate", { lines: this._lines, score: this._score });
         }
     }
