@@ -1,0 +1,251 @@
+@charset "utf-8";
+
+html, body {
+    width           : 100%;
+    height          : 100%;
+    overflow        : hidden;
+    padding         : 0;
+    margin          : 0;
+    background-color: #F0F0F0;
+    color           : #404040;
+}
+
+#title-screen {
+    display         : none;
+    width           : 480px;
+    height          : 480px;
+    position        : absolute;
+    top             : 50%;
+    left            : 50%;
+    margin-top      : -240px;
+    margin-left     : -240px;
+    z-index         : 100;
+    background-color: #404040;
+    color           : #F0F0F0;
+    text-align      : center;
+    font-size       : 10pt;
+    font-family     : monospace;
+    border-radius   : 20px;
+    box-shadow      : 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
+    overflow        : hidden;
+}
+
+#title-screen a {
+    color: #F0F0F0;
+}
+
+#title-screen header {
+    position: absolute;
+    width   : 480px;
+    height  : 120px;
+    top     : 0px;
+}
+
+#title-screen header h1 {
+    margin : 0px;
+    padding: 0px;
+}
+
+#title-screen header .logo-image {
+    image-rendering       : pixelated;
+    image-rendering       : -moz-crisp-edges;
+    image-rendering       : -webkit-crisp-edges;
+    image-rendering       : crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
+#title-screen footer {
+    position : absolute;
+    width    : 480px;
+    height   : 40px;
+    bottom   : 0px;
+}
+
+#title-screen footer p {
+    margin     : 0px;
+    padding    : 0px;
+    line-height: 40px;
+}
+
+#title-config-form {
+    margin-top: 120px;
+    padding   : 0px 10px;
+    width     : 460px;
+    height    : 320px;
+}
+
+#title-config-form fieldset {
+    margin-top   : 16px;
+    margin-bottom: 16px;
+    border       : 1px solid #808080;
+}
+
+.number {
+    width           : 64px;
+    text-align      : right;
+    border          : 1px solid #808080;
+    background-color: #404040;
+    color           : #F0F0F0;
+    font-family     : monospace;
+    font-size       : 10pt;
+}
+
+.number:hover {
+    background-color: #808080;
+}
+
+.button {
+    border          : 1px solid #808080;
+    background-color: #404040;
+    color           : #F0F0F0;
+    font-family     : monospace;
+    font-size       : 10pt;
+}
+
+.button:hover {
+    background-color: #808080;
+}
+
+#game-wrapper {
+    display               : none;
+    position              : absolute;
+    z-index               : 0;
+    border                : 1px solid #F0F0F0;
+    overflow              : hidden;
+    image-rendering       : pixelated;
+    image-rendering       : -moz-crisp-edges;
+    image-rendering       : -webkit-crisp-edges;
+    image-rendering       : crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+    cursor                : none;
+}
+
+.game-canvas {
+    position: absolute;
+}
+
+#game-left-view {
+    display    : none;
+    position   : absolute;
+    top        : 0px;
+    left       : 0px;
+    z-index    : 1;
+    opacity    : 1;
+    font-size  : 8pt;
+    font-family: monospace;
+}
+
+#game-left-view .section {
+    background-color: #404040;
+    color           : #F0F0F0;
+    box-shadow      : 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
+    padding         : 10px;
+    border-radius   : 0px 10px 10px 0px;
+    margin          : 10px 0px;
+    float           : left;
+    clear           : both;
+}
+
+#game-left-view .section:first-child {
+    border-radius: 0px 0px 10px 0px;
+    margin-top   : 0px;
+}
+
+#game-right-view {
+    display    : none;
+    position   : absolute;
+    top        : 0px;
+    right      : 0px;
+    z-index    : 2;
+    opacity    : 1;
+    font-size  : 8pt;
+    font-family: monospace;
+}
+
+#game-right-view .section {
+    background-color: #404040;
+    color           : #F0F0F0;
+    box-shadow      : 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
+    padding         : 10px;
+    border-radius   : 10px 0px 0px 10px;
+    margin          : 10px 0px;
+    float           : right;
+    clear           : both;
+}
+
+#game-right-view .section:first-child {
+    border-radius   : 0px 0px 0px 10px;
+    margin-top      : 0px;
+}
+
+#game-next {
+    overflow              : hidden;
+    image-rendering       : pixelated;
+    image-rendering       : -moz-crisp-edges;
+    image-rendering       : -webkit-crisp-edges;
+    image-rendering       : crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
+#game-hold {
+    overflow              : hidden;
+    image-rendering       : pixelated;
+    image-rendering       : -moz-crisp-edges;
+    image-rendering       : -webkit-crisp-edges;
+    image-rendering       : crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
+#game-paused-screen {
+    display         : none;
+    width           : 480px;
+    height          : 80px;
+    position        : absolute;
+    top             : 50%;
+    left            : 50%;
+    margin-top      : -40px;
+    margin-left     : -240px;
+    z-index         : 10;
+    background-color: #404040;
+    color           : #F0F0F0;
+    text-align      : center;
+    font-size       : 10pt;
+    font-family     : monospace;
+    padding         : 10px 0px;
+    border-radius   : 20px;
+    box-shadow      : 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
+    overflow        : hidden;
+}
+
+#game-paused-screen p {
+    margin     : 0px;
+    padding    : 0px;
+    line-height: 40px;
+}
+
+#game-over-screen {
+    display         : none;
+    width           : 480px;
+    height          : 160px;
+    position        : absolute;
+    top             : 50%;
+    left            : 50%;
+    margin-top      : -80px;
+    margin-left     : -240px;
+    z-index         : 211;
+    background-color: #404040;
+    color           : #F0F0F0;
+    text-align      : center;
+    font-size       : 10pt;
+    font-family     : monospace;
+    padding         : 10px 0px;
+    border-radius   : 20px;
+    box-shadow      : 0px 0px 20px 0px rgba(0, 0, 0, 0.5);
+    overflow        : hidden;
+}
+
+#game-over-screen p {
+    margin     : 0px;
+    padding    : 0px;
+    line-height: 40px;
+}
