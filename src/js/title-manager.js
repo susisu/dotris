@@ -7,6 +7,8 @@
 
 import { EventEmitter2 } from "eventemitter2";
 
+import packageInfo from "../../package.json";
+
 import { toggleFullscreen } from "./fullscreen.js";
 
 const GAME_MIN_WIDTH  = 10;
@@ -32,6 +34,9 @@ export class TitleManager extends EventEmitter2 {
         this._playButton       = window.document.getElementById("title-play-button");
         this._autoModeButton   = window.document.getElementById("title-auto-mode-button");
         this._fullscreenButton = window.document.getElementById("title-fullscreen-button");
+        this._versionText      = window.document.getElementById("title-version-text");
+
+        this._versionText.innerText = `v${packageInfo.version}`;
 
         this._updateGameSizeConfig(true);
 

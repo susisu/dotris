@@ -30,6 +30,10 @@ module.exports = {
     module: {
         loaders: [
             {
+                loader: "json",
+                test  : /\.json$/
+            },
+            {
                 loader: "babel-loader",
                 test  : /\.js$/,
                 query : {
