@@ -115,6 +115,7 @@ export class GameManager extends EventEmitter2 {
         this._nextWrapper    = window.document.getElementById("game-next");
         this._linesText      = window.document.getElementById("game-lines");
         this._scoreText      = window.document.getElementById("game-score");
+        this._levelText      = window.document.getElementById("game-level");
         this._messageText    = window.document.getElementById("game-message");
         this._pausedScreen   = window.document.getElementById("game-paused-screen");
         this._pausedText     = window.document.getElementById("game-paused-text");
@@ -148,9 +149,10 @@ export class GameManager extends EventEmitter2 {
 
         this._game = null;
 
-        this._onGameScoreUpdate = () => {
-            this._linesText.innerText = `Lines: ${this._game.lines}`;
-            this._scoreText.innerText = `Score: ${this._game.score}`;
+        this._onGameScoreUpdate = data => {
+            this._linesText.innerText = `Lines: ${data.lines}`;
+            this._scoreText.innerText = `Score: ${data.score}`;
+            this._levelText.innerText = `Level: ${data.level}`;
         };
 
         this._onGameMessage = message => {
@@ -161,7 +163,8 @@ export class GameManager extends EventEmitter2 {
             this._over = true;
             let resultText = `Size: ${this._width} x ${this._height}, `
                 + `Lines: ${this._game.lines}, `
-                + `Score: ${this._game.score}`
+                + `Score: ${this._game.score}, `
+                + `Level: ${this._game.level}`
                 + (this._game.autoMode ? " (auto mode)" : "");
             this._overResultText.innerText = resultText;
             this._updateShareButtons(resultText + " - dotris");
@@ -335,6 +338,7 @@ export class GameManager extends EventEmitter2 {
 
             this._linesText.innerText   = `Lines: ${this._game.lines}`;
             this._scoreText.innerText   = `Score: ${this._game.score}`;
+            this._levelText.innerText   = `Level: ${this._game.level}`;
             this._messageText.innerText = "";
             
             this._paused = false;

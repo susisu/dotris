@@ -314,6 +314,8 @@ const MoveVector = Object.freeze({
     DOWN : new Point(0, 1)
 });
 
+const AUTO_MODE_FREQUENCY = 60.0;
+
 function deepCopyArray(arr) {
     let copy = [];
     for (let [i, e] of arr.entries()) {
@@ -458,7 +460,8 @@ export class Game extends EventEmitter2 {
         this._over   = false;
         this._lines  = 0;
         this._score  = 0;
-        this._clock  = new Clock(this._autoMode ? 60.0 : 1.0);
+        this._level  = 0;
+        this._clock  = new Clock(this._autoMode ? AUTO_MODE_FREQUENCY : 1.0);
         this._paused = true;
 
         this._block               = null;
@@ -557,6 +560,10 @@ export class Game extends EventEmitter2 {
 
     get score() {
         return this._score;
+    }
+
+    get level() {
+        return this._level;
     }
 
     _initCanvas() {
@@ -954,10 +961,12 @@ export class Game extends EventEmitter2 {
         }
         if (deleteCounter > 0) {
             let score = deleteCounter * deleteCounter * this._fieldWidth * 10;
+
             if (this._backToBack) {
                 score *= 1.1;
             }
             let b2bText = this._backToBack ? "Back-To-Back " : "";
+
             switch (deleteCounter) {
             case 1:
                 if (spin) {
@@ -1003,8 +1012,7 @@ export class Game extends EventEmitter2 {
                 this._backToBack = true;
                 break;
             }
-            this._lines += deleteCounter;
-            this._score += Math.floor(score);
+
             let perfect = true;
             for (let i = 0; i < this._fieldHeight; i++) {
                 if (this._lineCounter[i] > 0) {
@@ -1013,10 +1021,20 @@ export class Game extends EventEmitter2 {
                 }
             }
             if (perfect) {
-                this._score += this._fieldWidth * this._fieldWidth * 100;
+                score += this._fieldWidth * this._fieldWidth * 100;
                 this.emit("message", "Perfect Clear");
             }
-            this.emit("scoreUpdate", { lines: this._lines, score: this._score });
+
+            this._lines += deleteCounter;
+            this._score += Math.floor(score);
+            
+            this._level = Math.floor(this._lines / 20);
+
+            this.emit("scoreUpdate", {
+                lines: this._lines,
+                score: this._score,
+                level: this._level
+            });
         }
     }
 
