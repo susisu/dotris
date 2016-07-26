@@ -484,11 +484,13 @@ export class Game extends EventEmitter2 {
 
         this._spawNewBlock();
         this._clock.on("clock", () => {
-            if (this._autoMode) {
-                this._hardDrop();
-            }
-            else {
-                this._clockDrop();
+            if (!this._over && !this._paused) {
+                if (this._autoMode) {
+                    this._hardDrop();
+                }
+                else {
+                    this._clockDrop();
+                }
             }
         });
     }
