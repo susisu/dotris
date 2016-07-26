@@ -320,7 +320,34 @@ export const GameMode = Object.freeze({
     AUTO    : "auto"
 });
 
-const AUTO_MODE_FREQUENCY = 60.0;
+const INIT_FREQUENCY         = 1.0;
+const INIT_LAND_FREQUENCY    = 1.0;
+const ENDLESS_MODE_FREQUENCY = 1.0;
+const AUTO_MODE_FREQUENCY    = 60.0;
+
+const MAX_LEVEL = 100;
+
+function getFrequency(gameMode, level) {
+    switch (gameMode) {
+    case GameMode.STANDARD:
+        return Math.min(level * 0.60 + INIT_FREQUENCY, 60.0);
+    case GameMode.ENDLESS:
+        return ENDLESS_MODE_FREQUENCY;
+    case GameMode.AUTO:
+        return AUTO_MODE_FREQUENCY;
+    }
+}
+
+function getLandFrequency(gameMode, level) {
+    switch (gameMode) {
+    case GameMode.STANDARD:
+        return Math.min(level * 0.03 + INIT_LAND_FREQUENCY, 4.0);
+    case GameMode.ENDLESS:
+        return ENDLESS_MODE_FREQUENCY;
+    case GameMode.AUTO:
+        return AUTO_MODE_FREQUENCY;
+    }
+}
 
 function deepCopyArray(arr) {
     let copy = [];
@@ -467,7 +494,7 @@ export class Game extends EventEmitter2 {
         this._lines  = 0;
         this._score  = 0;
         this._level  = 0;
-        this._clock  = new Clock(this._gameMode === GameMode.AUTO ? AUTO_MODE_FREQUENCY : 1.0);
+        this._clock  = new Clock(getFrequency(this._gameMode, this._level));
         this._paused = true;
 
         this._block               = null;
@@ -798,7 +825,12 @@ export class Game extends EventEmitter2 {
                 this.quit();
             }
             else {
-                this._clock.reset();
+                if (this._willLand()) {
+                    this._clock.frequency = getLandFrequency(this._gameMode, this._level);
+                }
+                else {
+                    this._clock.frequency = getFrequency(this._gameMode, this._level);
+                }
                 this._updateGhostPosition();
                 this._drawBlockGhost();
             }
@@ -826,7 +858,12 @@ export class Game extends EventEmitter2 {
                 this.quit();
             }
             else {
-                this._clock.reset();
+                if (this._willLand()) {
+                    this._clock.frequency = getLandFrequency(this._gameMode, this._level);
+                }
+                else {
+                    this._clock.frequency = getFrequency(this._gameMode, this._level);
+                }
                 this._updateGhostPosition();
                 this._drawBlockGhost();
             }
@@ -844,8 +881,11 @@ export class Game extends EventEmitter2 {
         }
         else {
             this._lastMovement = MovementType.MOVE;
-            if (wouldLand || this._willLand()) {
-                this._clock.reset();
+            if (this._willLand()) {
+                this._clock.frequency = getLandFrequency(this._gameMode, this._level);
+            }
+            else if (wouldLand) {
+                this._clock.frequency = getFrequency(this._gameMode, this._level);
             }
             if (vector.x !== 0) {
                 this._updateGhostPosition();
@@ -878,8 +918,11 @@ export class Game extends EventEmitter2 {
             let directionPM           = direction === BlockRotationDirection.CLOCKWISE ? 1 : -1;
             this._blockRotationDegree = (this._blockRotationDegree + directionPM + 4) % 4;
             this._lastMovement = MovementType.ROTATE;
-            if (wouldLand || this._willLand()) {
-                this._clock.reset();
+            if (this._willLand()) {
+                this._clock.frequency = getLandFrequency(this._gameMode, this._level);
+            }
+            else if (wouldLand) {
+                this._clock.frequency = getFrequency(this._gameMode, this._level);
             }
             this._updateGhostPosition();
             this._drawBlockGhost();
@@ -905,6 +948,12 @@ export class Game extends EventEmitter2 {
                 this._landBlock();
             }
             else {
+                if (this._willLand()) {
+                    this._clock.frequency = getLandFrequency(this._gameMode, this._level);
+                }
+                else {
+                    this._clock.frequency = getFrequency(this._gameMode, this._level);
+                }
                 this._lastMovement = MovementType.MOVE;
                 this._drawBlockGhost();
             }
@@ -1034,7 +1083,7 @@ export class Game extends EventEmitter2 {
             this._lines += deleteCounter;
             this._score += Math.floor(score);
             
-            this._level = Math.floor(this._lines / 20);
+            this._level = Math.min(Math.floor(this._lines / 20), MAX_LEVEL);
 
             this.emit("scoreUpdate", {
                 lines: this._lines,
