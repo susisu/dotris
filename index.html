@@ -22,6 +22,14 @@
                     </p>
                 </fieldset>
                 <fieldset>
+                    <legend>Game Mode</legend>
+                    <p>
+                        <label><input name="game-mode" type="radio" value="standard" checked>Standard</label>
+                        <label><input name="game-mode" type="radio" value="endless">Endless</label>
+                        <label><input name="game-mode" type="radio" value="auto">Auto</label>
+                    </p>
+                </fieldset>
+                <fieldset>
                     <legend>Display</legend>
                     <p>
                         <label><input name="scaling" type="checkbox" checked>Scaling</label>
@@ -37,7 +45,6 @@
                 </fieldset>
                 <p>
                     <input id="title-play-button" type="button" value="Play" class="button">
-                    <input id="title-auto-mode-button" type="button" value="Auto mode" class="button">
                     <input id="title-fullscreen-button" type="button" value="Fullscreen" class="button">
                     <input id="title-how-to-play-button" type="button" value="How to play" class="button">
                 </p>
@@ -95,6 +102,7 @@
             <div class="section">
                 <p id="game-lines"></p>
                 <p id="game-score"></p>
+                <p id="game-level"></p>
                 <p id="game-message">Back-to-Back T-Spin Triple</p>
             </div>
         </div>
