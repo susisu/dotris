@@ -30,8 +30,8 @@ function main() {
         game.start({
             width      : config.width,
             height     : config.height,
-            colorScheme: config.colorScheme,
-            autoMode   : config.autoMode
+            gameMode   : config.gameMode,
+            colorScheme: config.colorScheme
         });
     }
 

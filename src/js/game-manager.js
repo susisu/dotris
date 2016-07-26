@@ -8,7 +8,7 @@
 import { EventEmitter2 } from "eventemitter2";
 
 import { Color } from "./geom.js";
-import { Game, BlockType, BlockColorPrefix } from "./game.js";
+import { Game, BlockType, BlockColorPrefix, GameMode } from "./game.js";
 import { toggleFullscreen } from "./fullscreen.js";
 
 const WRAPPER_BORDER_THICKNESS = 1;
@@ -164,10 +164,12 @@ export class GameManager extends EventEmitter2 {
             let resultText = `Size: ${this._width} x ${this._height}, `
                 + `Lines: ${this._game.lines}, `
                 + `Score: ${this._game.score}, `
-                + `Level: ${this._game.level}`
-                + (this._game.autoMode ? " (auto mode)" : "");
+                + `Level: ${this._game.level}`;
+            let shareText = resultText
+                + (this._game.gameMode !== GameMode.STANDARD ? ` (${this._game.gameMode})` : "")
+                + " - dotris";
             this._overResultText.innerText = resultText;
-            this._updateShareButtons(resultText + " - dotris");
+            this._updateShareButtons(shareText);
             this._updateVisibility();
             this._overScreen.style.opacity = "1";
         };
@@ -316,9 +318,9 @@ export class GameManager extends EventEmitter2 {
             this._game = new Game({
                 innerWidth   : this._width,
                 innerHeight  : this._height,
+                gameMode     : config.gameMode,
                 colors       : colors,
-                numNextBlocks: NUM_NEXT_BLOCKS,
-                autoMode     : config.autoMode
+                numNextBlocks: NUM_NEXT_BLOCKS
             });
 
             this._game.canvas.className  = "game-canvas";

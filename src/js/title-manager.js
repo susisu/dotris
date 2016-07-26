@@ -28,7 +28,6 @@ export class TitleManager extends EventEmitter2 {
         this._configForm        = window.document.getElementById("title-config-form");
         this._maximizeButton    = window.document.getElementById("title-maximize-button");
         this._playButton        = window.document.getElementById("title-play-button");
-        this._autoModeButton    = window.document.getElementById("title-auto-mode-button");
         this._fullscreenButton  = window.document.getElementById("title-fullscreen-button");
         this._howToPlayButton   = window.document.getElementById("title-how-to-play-button");
         this._versionText       = window.document.getElementById("title-version-text");
@@ -62,13 +61,7 @@ export class TitleManager extends EventEmitter2 {
 
         this._playButton.addEventListener("click", () => {
             if (this._enabled) {
-                this._playGame(false);
-            }
-        });
-
-        this._autoModeButton.addEventListener("click", () => {
-            if (this._enabled) {
-                this._playGame(true);
+                this._playGame();
             }
         });
 
@@ -125,7 +118,7 @@ export class TitleManager extends EventEmitter2 {
         this._configForm["height"].max = `${this._gameMaxHeight}`;
     }
 
-    _playGame(autoMode) {
+    _playGame() {
         let width = forceInRange(
             parseInt(this._configForm["width"].value) || 0,
             this._gameMinWidth, this._gameMaxWidth
@@ -139,10 +132,10 @@ export class TitleManager extends EventEmitter2 {
         let config = {
             width         : width,
             height        : height,
+            gameMode      : this._configForm["game-mode"].value,
             scaling       : this._configForm["scaling"].checked,
             highResolution: this._configForm["high-resolution"].checked,
-            colorScheme   : this._configForm["color-scheme"].value,
-            autoMode      : autoMode
+            colorScheme   : this._configForm["color-scheme"].value
         };
         this.emit("play", config);
     }

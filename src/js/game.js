@@ -314,6 +314,12 @@ const MoveVector = Object.freeze({
     DOWN : new Point(0, 1)
 });
 
+export const GameMode = Object.freeze({
+    STANDARD: "standard",
+    ENDLESS : "endless",
+    AUTO    : "auto"
+});
+
 const AUTO_MODE_FREQUENCY = 60.0;
 
 function deepCopyArray(arr) {
@@ -432,9 +438,9 @@ export class Game extends EventEmitter2 {
         super();
         this._innerWidth    = config.innerWidth;
         this._innerHeight   = config.innerHeight;
+        this._gameMode      = config.gameMode;
         this._colors        = config.colors;
         this._numNextBlocks = config.numNextBlocks;
-        this._autoMode      = config.autoMode;
 
         this._fieldWidth  = this._innerWidth;
         this._fieldHeight = this._innerHeight + TOP_PADDING;
@@ -461,7 +467,7 @@ export class Game extends EventEmitter2 {
         this._lines  = 0;
         this._score  = 0;
         this._level  = 0;
-        this._clock  = new Clock(this._autoMode ? AUTO_MODE_FREQUENCY : 1.0);
+        this._clock  = new Clock(this._gameMode === GameMode.AUTO ? AUTO_MODE_FREQUENCY : 1.0);
         this._paused = true;
 
         this._block               = null;
@@ -488,7 +494,7 @@ export class Game extends EventEmitter2 {
         this._spawNewBlock();
         this._clock.on("clock", () => {
             if (!this._over && !this._paused) {
-                if (this._autoMode) {
+                if (this._gameMode === GameMode.AUTO) {
                     this._hardDrop();
                 }
                 else {
@@ -542,8 +548,8 @@ export class Game extends EventEmitter2 {
         return this._holdCanvas;
     }
 
-    get autoMode() {
-        return this._autoMode;
+    get gameMode() {
+        return this._gameMode;
     }
 
     get paused() {
@@ -766,7 +772,7 @@ export class Game extends EventEmitter2 {
         this._blockWidth          = this._block[0].length;
         this._blockHeight         = this._block.length;
         this._blockRotationDegree = 0;
-        if (this._autoMode) {
+        if (this._gameMode === GameMode.AUTO) {
             let rect = getClippedBlockRect(this._block);
             this._blockPosition = new Point(
                 BORDER_THICKNESS + Math.floor(Math.random() * (this._fieldWidth - rect.width)),
@@ -1075,43 +1081,43 @@ export class Game extends EventEmitter2 {
     }
 
     moveLeft() {
-        if (!this._over && !this._paused && !this._autoMode) {
+        if (!this._over && !this._paused && this._gameMode !== GameMode.AUTO) {
             this._moveBlock(MoveVector.LEFT);
         }
     }
 
     moveRight() {
-        if (!this._over && !this._paused && !this._autoMode) {
+        if (!this._over && !this._paused && this._gameMode !== GameMode.AUTO) {
             this._moveBlock(MoveVector.RIGHT);
         }
     }
 
     softDrop() {
-        if (!this._over && !this._paused && !this._autoMode) {
+        if (!this._over && !this._paused && this._gameMode !== GameMode.AUTO) {
             this._moveBlock(MoveVector.DOWN);
         }
     }
 
     hardDrop() {
-        if (!this._over && !this._paused && !this._autoMode) {
+        if (!this._over && !this._paused && this._gameMode !== GameMode.AUTO) {
             this._hardDrop();
         }
     }
 
     rotateClockwise() {
-        if (!this._over && !this._paused && !this._autoMode) {
+        if (!this._over && !this._paused && this._gameMode !== GameMode.AUTO) {
             this._rotateBlock(BlockRotationDirection.CLOCKWISE);
         }
     }
 
     rotateCounterclockwise() {
-        if (!this._over && !this._paused && !this._autoMode) {
+        if (!this._over && !this._paused && this._gameMode !== GameMode.AUTO) {
             this._rotateBlock(BlockRotationDirection.COUNTERCLOCKWISE);
         }
     }
 
     hold() {
-        if (!this._over && !this._paused && !this._autoMode) {
+        if (!this._over && !this._paused && this._gameMode !== GameMode.AUTO) {
             this._hold();
         }
     }
