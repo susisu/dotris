@@ -458,7 +458,7 @@ export class Game extends EventEmitter2 {
         this._over   = false;
         this._lines  = 0;
         this._score  = 0;
-        this._clock  = new Clock(this._autoMode ? 30.0 : 1.0);
+        this._clock  = new Clock(this._autoMode ? 60.0 : 1.0);
         this._paused = true;
 
         this._block               = null;
