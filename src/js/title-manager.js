@@ -24,21 +24,26 @@ export class TitleManager extends EventEmitter2 {
     constructor() {
         super();
 
-        this._titleScreen = window.document.getElementById("title-screen");
-
-        this._titleScreen.style.display = "none";
-        this._enabled = false;
-
-        this._configForm       = window.document.getElementById("title-config-form");
-        this._maximizeButton   = window.document.getElementById("title-maximize-button");
-        this._playButton       = window.document.getElementById("title-play-button");
-        this._autoModeButton   = window.document.getElementById("title-auto-mode-button");
-        this._fullscreenButton = window.document.getElementById("title-fullscreen-button");
-        this._versionText      = window.document.getElementById("title-version-text");
+        this._titleScreen       = window.document.getElementById("title-screen");
+        this._configForm        = window.document.getElementById("title-config-form");
+        this._maximizeButton    = window.document.getElementById("title-maximize-button");
+        this._playButton        = window.document.getElementById("title-play-button");
+        this._autoModeButton    = window.document.getElementById("title-auto-mode-button");
+        this._fullscreenButton  = window.document.getElementById("title-fullscreen-button");
+        this._howToPlayButton   = window.document.getElementById("title-how-to-play-button");
+        this._versionText       = window.document.getElementById("title-version-text");
+        this._howToPlayScreen   = window.document.getElementById("how-to-play-screen");
+        this._howToPlayOKButton = window.document.getElementById("how-to-play-ok-button");
 
         this._versionText.innerText = `v${packageInfo.version}`;
 
+        this._visible          = false;
+        this._visibleHowToPlay = false;
+        this._updateVisibility();
+
         this._updateGameSizeConfig(true);
+
+        this._enabled          = false;
 
         window.addEventListener("resize", () => {
             this._updateGameSizeConfig(false);
@@ -72,6 +77,36 @@ export class TitleManager extends EventEmitter2 {
                 toggleFullscreen();
             }
         });
+
+        this._howToPlayButton.addEventListener("click", () => {
+            if (this._enabled) {
+                this._visibleHowToPlay = !this._visibleHowToPlay;
+                this._updateVisibility();
+            }
+        });
+
+        this._howToPlayOKButton.addEventListener("click", () => {
+            if (this._enabled) {
+                this._visibleHowToPlay = false;
+                this._updateVisibility();
+            }
+        });
+    }
+
+    _updateVisibility() {
+        if (this._visible) {
+            this._titleScreen.style.display = "block";
+            if (this._visibleHowToPlay) {
+                this._howToPlayScreen.style.display = "block";
+            }
+            else {
+                this._howToPlayScreen.style.display = "none";
+            }
+        }
+        else {
+            this._titleScreen.style.display     = "none";
+            this._howToPlayScreen.style.display = "none";
+        }
     }
 
     _updateGameSizeConfig(init) {
@@ -113,12 +148,15 @@ export class TitleManager extends EventEmitter2 {
     }
 
     show() {
-        this._titleScreen.style.display = "block";
+        this._visible = true;
+        this._updateVisibility();
         this._enabled = true;
     }
 
     hide() {
-        this._titleScreen.style.display = "none";
+        this._visible          = false;
+        this._visibleHowToPlay = false;
+        this._updateVisibility();
         this._enabled = false;
     }
 }
