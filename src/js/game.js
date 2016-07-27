@@ -675,6 +675,11 @@ export class Game extends EventEmitter2 {
         }
     }
 
+    _updateBlockSize() {
+        this._blockWidth  = this._block[0].length;
+        this._blockHeight = this._block.length;
+    }
+
     _blockHitTest() {
         for (let j = 0; j < this._blockWidth; j++) {
             for (let i = 0; i < this._blockHeight; i++) {
@@ -794,10 +799,9 @@ export class Game extends EventEmitter2 {
     }
 
     _setCurrentBlock(blockType) {
-        this._block               = deepCopyArray(Block[blockType]);
+        this._block = deepCopyArray(Block[blockType]);
+        this._updateBlockSize();
         this._blockType           = blockType;
-        this._blockWidth          = this._block[0].length;
-        this._blockHeight         = this._block.length;
         this._blockRotationDegree = 0;
         if (this._gameMode === GameMode.AUTO) {
             let rect = getClippedBlockRect(this._block);
@@ -900,6 +904,7 @@ export class Game extends EventEmitter2 {
         let oldBlock    = this._block;
         let oldPosition = this._blockPosition;
         this._block     = rotateMatrix(this._block, direction);
+        this._updateBlockSize();
         let succeeded = false;
         if (this._blockHitTest()) {
             let corrs = BlockCorrection[this._blockType][this._blockRotationDegree][direction];
@@ -928,7 +933,8 @@ export class Game extends EventEmitter2 {
             this._drawBlockGhost();
         }
         else {
-            this._block         = oldBlock;
+            this._block = oldBlock;
+            this._updateBlockSize();
             this._blockPosition = oldPosition;
             this._drawBlockGhost();
         }
