@@ -767,9 +767,13 @@ export class Game extends EventEmitter2 {
         let minY = this._height;
         for (let j = 0; j < this._blockWidth; j++) {
             if (bottom[j] >= 0) {
-                for (let y = this._blockPosition.y; y < this._height; y++) {
-                    let alpha = this._bmp.getAlpha(new Point(this._blockPosition.x + j, y + bottom[j] + 1));
-                    if (alpha > 0) {
+                let alphas = this._bmp.getAlphasBelow(
+                    new Point(this._blockPosition.x + j, this._blockPosition.y + bottom[j] + 1)
+                );
+                let len = alphas.length;
+                for (let i = 0; i < len; i++) {
+                    if (alphas[i] > 0) {
+                        let y = this._blockPosition.y + i;
                         if (y < minY) {
                             minY = y;
                         }
