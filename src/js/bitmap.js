@@ -28,6 +28,18 @@ export class Bitmap {
         return pixel.data[3];
     }
 
+    getAlphasBelow(point) {
+        let height = this.canvas.height - point.y;
+        let pixels = this._ctx.getImageData(point.x, point.y, 1, height);
+        let alphas = [];
+        for (let i = 0; i < height * 4; i++) {
+            if (i % 4 === 3) {
+                alphas.push(pixels.data[i]);
+            }
+        }
+        return alphas;
+    }
+
     setPixel(point, color) {
         let pixel = this._ctx.createImageData(1, 1);
         pixel.data[0] = color.r;
