@@ -1,6 +1,6 @@
 /*
  * dotris / title-manager.js
- * copyright (c) 2016 Susisu
+ * copyright (c) 2016-2017 Susisu
  */
 
 "use strict";
