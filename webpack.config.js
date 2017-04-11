@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 "use strict";
 
 const path    = require("path");
