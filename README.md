@@ -1,16 +1,21 @@
 # dotris
-### Development
+## Development
+### Setup
 ``` shell
 git clone https://github.com/susisu/dotris.git
 cd dotris
 npm install
+```
+
+### Start app for development
+``` shell
 npm start
 # open http://localhost:3000
 ```
 
-### Build
+### Prepare for publish
 ``` shell
-npm run build
+npm run prepare
 ```
 
 ## License
