@@ -88,7 +88,10 @@ const RANDOM_PAUSED_TEXTS = [
   "Complex scalar field",
   "Many a little makes a mickle",
   "Stop right now",
-  "Looks glitched to me"
+  "Looks glitched to me",
+  "Open your eyes",
+  "Snow of tetrominoes",
+  "Now loading"
 ];
 
 function getPausedText(counter) {
