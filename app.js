@@ -22,7 +22,7 @@ browserSync.init({
     })
   ],
   files: [
-    "app/css/*.css",
+    "app/static/css/*.css",
     "app/*.html"
   ]
 });
